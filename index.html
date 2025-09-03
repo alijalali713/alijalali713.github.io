@@ -3,540 +3,364 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>اینفوگرافیک برنامه اقدام صنعتی استان کرمان (۱۴۰۸-۱۴۰۴)</title>
+    <title>اینفوگرافیک برنامه اقدام راهبردی سیاست صنعتی استان کرمان (۱۴۰۴-۱۴۰۸)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Vazirmatn', sans-serif;
             scroll-behavior: smooth;
         }
-        .chart-container {
-            position: relative;
-            width: 100%;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-            height: 300px;
-            max-height: 400px;
+        .rtl-grid {
+            direction: rtl;
         }
-        @media (min-width: 768px) {
-            .chart-container {
-                height: 350px;
-            }
+        .gantt-chart {
+            display: grid;
+            grid-template-columns: 150px repeat(12, 1fr);
+            gap: 2px;
+            font-size: 0.75rem;
         }
-        .gantt-chart-container {
-            position: relative;
-            width: 100%;
-            height: 500px;
+        .gantt-header, .gantt-row {
+            display: contents;
         }
-        .kpi-card {
-            background-color: #051923;
+        .gantt-cell {
+            padding: 8px 4px;
+            text-align: center;
+            background-color: #f3f4f6;
+            border: 1px solid #e5e7eb;
+        }
+        .gantt-project-name {
+            grid-column-start: 1;
+            padding: 8px;
+            background-color: #e5e7eb;
+            font-weight: 500;
+            text-align: right;
+            border: 1px solid #d1d5db;
+        }
+        .gantt-bar {
+            grid-column: var(--start) / var(--end);
+            background-color: #3b82f6;
+            margin: 4px 0;
+            border-radius: 4px;
             color: white;
-            border-right: 5px solid #00A6FB;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 20px;
         }
-        .loader {
-            border: 5px solid #f3f3f3;
-            border-top: 5px solid #0582CA;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            animation: spin 1s linear infinite;
+        .modal {
+            transition: opacity 0.3s ease;
         }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .modal-content {
+            transition: transform 0.3s ease;
         }
     </style>
 </head>
-<body class="bg-gray-100 text-gray-800">
+<body class="bg-gray-50 text-gray-800">
 
-    <header class="bg-[#003554] text-white p-8 text-center shadow-lg">
-        <h1 class="text-4xl md:text-5xl font-black mb-2">کرمانِ رو به تعالی: چشم‌انداز صنعتی ۱۴۰۸</h1>
-        <p class="text-lg md:text-xl font-light">یک نقشه راه ۸,۲۱۰ میلیارد تومانی برای گذار از اقتصاد مبتنی بر منابع به قطب صنعتی پیشرفته و پایدار</p>
+    <!-- Header -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-xl md:text-2xl font-bold text-blue-800">برنامه اقدام صنعتی کرمان ۱۴۰۴-۱۴۰۸</h1>
+            <nav class="hidden md:flex space-x-reverse space-x-6">
+                <a href="#vision" class="text-gray-600 hover:text-blue-600">چشم‌انداز</a>
+                <a href="#investment" class="text-gray-600 hover:text-blue-600">سرمایه‌گذاری</a>
+                <a href="#pillars" class="text-gray-600 hover:text-blue-600">محورهای راهبردی</a>
+                <a href="#timeline" class="text-gray-600 hover:text-blue-600">زمان‌بندی</a>
+                <a href="#ai-assistant" class="text-gray-600 hover:text-blue-600">دستیار هوشمند</a>
+            </nav>
+        </div>
     </header>
 
-    <main class="container mx-auto p-4 md:p-8">
+    <main class="container mx-auto px-6 py-8">
 
-        <section id="diagnosis" class="mb-12">
-            <h2 class="text-3xl font-bold text-center mb-8 text-[#006494]">تشخیص راهبردی: چالش‌ها و واقعیت‌ها</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                <div class="bg-white rounded-lg shadow-md p-6">
-                    <h3 class="text-xl font-bold mb-4 text-center">دوگانگی شدید اقتصادی</h3>
-                    <div class="chart-container">
-                        <canvas id="dualityChart"></canvas>
-                    </div>
-                    <p class="text-center mt-4 text-gray-600">این نمودار به وضوح نشان می‌دهد که کمتر از ۱٪ از واحدهای صنعتی (عمدتاً شرکت‌های بزرگ معدنی) بیش از ۷۸٪ از ارزش افزوده صنعتی استان را تولید می‌کنند، در حالی که بیش از ۷۰٪ بنگاه‌ها، واحدهای خرد و کوچک هستند. این شکاف، چالش اصلی توسعه متوازن است.</p>
+        <!-- Vision Section -->
+        <section id="vision" class="my-12 text-center">
+            <h2 class="text-3xl font-bold text-gray-900 mb-4">گذار از اقتصاد منبع‌محور به قطب صنعتی پایدار</h2>
+            <p class="max-w-3xl mx-auto text-lg text-gray-600">
+                برنامه راهبردی صنعتی کرمان با هدف رفع "دوگانگی اقتصادی" استان و غلبه بر چالش‌های کلیدی آب و انرژی، به دنبال ایجاد یک اکوسیستم صنعتی دانش‌بنیان، رقابت‌پذیر و هم‌افزا است.
+            </p>
+            <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-8 rtl-grid">
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <h3 class="text-xl font-semibold text-red-600 mb-2">چالش کلیدی: دوگانگی اقتصادی</h3>
+                    <p>وابستگی به صنایع معدنی بزرگ در کنار بخش‌های خرد و سنتی، مانع رشد پایدار و متوازن شده است.</p>
                 </div>
-                <div class="space-y-6">
-                    <div class="bg-white rounded-lg shadow-md p-6 flex items-center">
-                        <span class="text-6xl mr-6">💧</span>
-                        <div>
-                            <h3 class="text-2xl font-bold text-red-600">بحران آب</h3>
-                            <p class="text-gray-600">کرمان در یکی از خشک‌ترین مناطق ایران واقع شده و صنایع کلیدی آن مانند فولاد و مس با محدودیت حیاتی در منابع آب روبرو هستند. مدیریت پایدار آب یک ضرورت انکارناذیر است.</p>
-                        </div>
-                    </div>
-                    <div class="bg-white rounded-lg shadow-md p-6 flex items-center">
-                        <span class="text-6xl mr-6">⚡️</span>
-                        <div>
-                            <h3 class="text-2xl font-bold text-yellow-500">ناترازی انرژی</h3>
-                            <p class="text-gray-600">کمبود برق، به ویژه در فصول اوج مصرف، به یک مانع جدی برای تولید مستمر و بهره‌برداری کامل از ظرفیت‌های صنعتی استان تبدیل شده است.</p>
-                        </div>
-                    </div>
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <h3 class="text-xl font-semibold text-blue-600 mb-2">چشم‌انداز ۱۴۰۸: قطب صنعتی پیشرفته</h3>
+                    <p>تبدیل شدن به یک مرکز صنعتی نوآور با زنجیره‌های ارزش کامل و رویکرد صادرات‌گرا.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <h3 class="text-xl font-semibold text-yellow-600 mb-2">محدودیت‌های اصلی: آب و انرژی</h3>
+                    <p>مدیریت هوشمند منابع با تکیه بر فناوری‌های نوین و انرژی‌های تجدیدپذیر به عنوان پیش‌شرط توسعه.</p>
                 </div>
             </div>
         </section>
 
-        <section id="investment" class="mb-12 bg-white rounded-lg shadow-xl p-8">
-            <h2 class="text-3xl font-bold text-center mb-8 text-[#006494]">مدل سرمایه‌گذاری: اهرم‌سازی منابع خصوصی</h2>
-            <p class="text-center max-w-3xl mx-auto mb-8 text-gray-600">این راهبرد بر یک مدل تأمین مالی هوشمند استوار است که در آن منابع محدود دولتی به عنوان کاتالیزور برای جذب سرمایه‌گذاری گسترده بخش خصوصی عمل می‌کند. این رویکرد، پایداری مالی برنامه را تضمین کرده و کارایی را به حداکثر می‌رساند.</p>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
-                <div class="md:col-span-2 bg-gray-50 rounded-lg p-4">
-                    <h3 class="text-xl font-bold mb-4 text-center">تفکیک سرمایه‌گذاری عمومی و خصوصی (میلیارد تومان)</h3>
-                    <div class="chart-container h-96">
-                        <canvas id="investmentChart"></canvas>
-                    </div>
+        <!-- Investment Section -->
+        <section id="investment" class="my-16 bg-white p-8 rounded-xl shadow-lg">
+            <h2 class="text-3xl font-bold text-center text-gray-900 mb-2">مدل سرمایه‌گذاری هوشمند: اهرم بخش خصوصی</h2>
+            <p class="text-center text-lg text-gray-600 mb-8">این برنامه با جذب بیش از ۶.۷ هزار میلیارد تومان سرمایه‌گذاری بخش خصوصی، نقشی کاتالیزوری برای دولت تعریف می‌کند.</p>
+            <div class="chart-container" style="position: relative; height:40vh; width:80vw; max-width: 900px; margin: auto;">
+                <canvas id="investmentChart"></canvas>
+            </div>
+        </section>
+
+        <!-- Strategic Pillars Section -->
+        <section id="pillars" class="my-16">
+            <h2 class="text-3xl font-bold text-center text-gray-900 mb-8">پنج محور راهبردی برای تحول صنعتی</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 rtl-grid">
+                <!-- Pillar Card 1 -->
+                <div class="bg-white p-6 rounded-lg shadow-lg flex flex-col">
+                    <h3 class="text-2xl font-bold text-blue-800 mb-4">۱. ابرخوشه فلزات (فولاد و مس)</h3>
+                    <p class="text-gray-600 mb-4 flex-grow">تکمیل زنجیره ارزش با تمرکز بر محصولات نهایی، بازیافت و بومی‌سازی تجهیزات.</p>
+                    <button data-prompt="یک تحلیل SWOT برای محور راهبردی 'ابرخوشه فلزات (فولاد و مس)' در برنامه صنعتی کرمان ارائه بده. تمرکز بر تکمیل زنجیره ارزش، بازیافت و بومی‌سازی باشد." class="ai-button mt-4 w-full bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-700 transition">✨ تحلیل هوشمند</button>
                 </div>
-                <div class="text-center space-y-4">
-                    <div class="bg-[#0582CA] text-white rounded-lg p-6 shadow-lg">
-                        <p class="text-lg">مجموع سرمایه‌گذاری</p>
-                        <p class="text-5xl font-black">۸,۲۱۰</p>
-                        <p class="text-lg">میلیارد تومان</p>
-                    </div>
-                    <div class="bg-[#00A6FB] text-white rounded-lg p-6 shadow-lg">
-                        <p class="text-lg">نسبت اهرمی</p>
-                        <p class="text-5xl font-black">۱۰.۴ برابر</p>
-                        <p class="text-lg">به ازای هر ۱ تومان دولتی</p>
-                    </div>
+                <!-- Pillar Card 2 -->
+                <div class="bg-white p-6 rounded-lg shadow-lg flex flex-col">
+                    <h3 class="text-2xl font-bold text-green-800 mb-4">۲. قطب خودرو و قطعه‌سازی</h3>
+                    <p class="text-gray-600 mb-4 flex-grow">ایجاد مراکز آزمون و مهندسی مشترک برای افزایش کیفیت، صادرات و داخلی‌سازی قطعات پیشرفته.</p>
+                    <button data-prompt="یک تحلیل SWOT برای محور راهبردی 'قطب خودرو و قطعه‌سازی' در برنامه صنعتی کرمان ارائه بده. تمرکز بر مراکز آزمون، مهندسی مشترک و صادرات باشد." class="ai-button mt-4 w-full bg-green-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-green-700 transition">✨ تحلیل هوشمند</button>
+                </div>
+                <!-- Pillar Card 3 -->
+                <div class="bg-white p-6 rounded-lg shadow-lg flex flex-col">
+                    <h3 class="text-2xl font-bold text-orange-800 mb-4">۳. کشاورزی فناورانه (AgriTech)</h3>
+                    <p class="text-gray-600 mb-4 flex-grow">توسعه گلخانه‌های هوشمند و زنجیره سرد برای کاهش مصرف آب و افزایش صادرات محصولات کشاورزی.</p>
+                    <button data-prompt="یک تحلیل SWOT برای محور راهبردی 'کشاورزی فناورانه (AgriTech)' در برنامه صنعتی کرمان ارائه بده. تمرکز بر گلخانه‌های هوشمند، زنجیره سرد و کاهش مصرف آب باشد." class="ai-button mt-4 w-full bg-orange-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-orange-700 transition">✨ تحلیل هوشمند</button>
+                </div>
+                <!-- Pillar Card 4 -->
+                <div class="bg-white p-6 rounded-lg shadow-lg flex flex-col">
+                    <h3 class="text-2xl font-bold text-yellow-800 mb-4">۴. انرژی‌های تجدیدپذیر و تجهیزات</h3>
+                    <p class="text-gray-600 mb-4 flex-grow">ایجاد پارک‌های خورشیدی و بومی‌سازی زنجیره تامین تجهیزات برای تضمین انرژی پایدار صنایع.</p>
+                    <button data-prompt="یک تحلیل SWOT برای محور راهبردی 'انرژی‌های تجدیدپذیر و تجهیزات' در برنامه صنعتی کرمان ارائه بده. تمرکز بر پارک‌های خورشیدی و بومی‌سازی زنجیره تامین باشد." class="ai-button mt-4 w-full bg-yellow-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-yellow-700 transition">✨ تحلیل هوشمند</button>
+                </div>
+                <!-- Pillar Card 5 -->
+                <div class="bg-white p-6 rounded-lg shadow-lg flex flex-col">
+                    <h3 class="text-2xl font-bold text-indigo-800 mb-4">۵. فلزات نوین و های‌تک (تیتانیوم)</h3>
+                    <p class="text-gray-600 mb-4 flex-grow">ایجاد مرکز توسعه و آزمایشگاه تخصصی برای ورود به بازار جهانی آلیاژهای پیشرفته تیتانیوم.</p>
+                    <button data-prompt="یک تحلیل SWOT برای محور راهبردی 'فلزات نوین (تیتانیوم)' در برنامه صنعتی کرمان ارائه بده. تمرکز بر ایجاد مرکز توسعه و ورود به بازارهای جهانی باشد." class="ai-button mt-4 w-full bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-indigo-700 transition">✨ تحلیل هوشمند</button>
                 </div>
             </div>
         </section>
 
-        <section id="pillars" class="mb-12">
-            <h2 class="text-3xl font-bold text-center mb-8 text-[#006494]">پنج محور رنسانس صنعتی کرمان</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 text-center">
-                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow flex flex-col justify-between">
-                    <div>
-                        <p class="text-5xl mb-4">🔩</p>
-                        <h3 class="text-xl font-bold">ابرخوشه فلزات</h3>
-                        <p class="text-gray-600 text-sm">تعمیق زنجیره ارزش مس و فولاد از سنگ معدن تا محصولات پیشرفته.</p>
-                    </div>
-                    <button class="ai-analysis-btn mt-4 bg-[#00A6FB] text-white px-4 py-2 rounded-lg hover:bg-[#0582CA] transition" data-pillar="ابرخوشه فلزات">✨ تحلیل هوشمند</button>
+        <!-- Timeline Section -->
+        <section id="timeline" class="my-16 bg-white p-8 rounded-xl shadow-lg overflow-x-auto">
+            <h2 class="text-3xl font-bold text-center text-gray-900 mb-8">نقشه راه و زمان‌بندی پروژه‌های کلیدی</h2>
+            <div class="gantt-chart">
+                <div class="gantt-header">
+                    <div class="gantt-cell font-semibold">پروژه</div>
+                    <div class="gantt-cell">1404 Q2</div><div class="gantt-cell">Q3</div><div class="gantt-cell">Q4</div>
+                    <div class="gantt-cell">1405 Q1</div><div class="gantt-cell">Q2</div><div class="gantt-cell">Q3</div><div class="gantt-cell">Q4</div>
+                    <div class="gantt-cell">1406</div><div class="gantt-cell">1407</div><div class="gantt-cell">1408</div>
                 </div>
-                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow flex flex-col justify-between">
-                    <div>
-                        <p class="text-5xl mb-4">🚗</p>
-                        <h3 class="text-xl font-bold">خودرو و ساخت پیشرفته</h3>
-                        <p class="text-gray-600 text-sm">ارتقای قطب خودروسازی از مونتاژ به مهندسی، طراحی و آزمون.</p>
-                    </div>
-                    <button class="ai-analysis-btn mt-4 bg-[#00A6FB] text-white px-4 py-2 rounded-lg hover:bg-[#0582CA] transition" data-pillar="خودرو و ساخت پیشرفته">✨ تحلیل هوشمند</button>
-                </div>
-                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow flex flex-col justify-between">
-                    <div>
-                        <p class="text-5xl mb-4">🌿</p>
-                        <h3 class="text-xl font-bold">کشاورزی فناورانه</h3>
-                        <p class="text-gray-600 text-sm">مدرن‌سازی قطب جیرفت با گلخانه‌های هوشمند و تکمیل زنجیره سرد.</p>
-                    </div>
-                    <button class="ai-analysis-btn mt-4 bg-[#00A6FB] text-white px-4 py-2 rounded-lg hover:bg-[#0582CA] transition" data-pillar="کشاورزی فناورانه">✨ تحلیل هوشمند</button>
-                </div>
-                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow flex flex-col justify-between">
-                    <div>
-                        <p class="text-5xl mb-4">☀️</p>
-                        <h3 class="text-xl font-bold">انقلاب خورشیدی</h3>
-                        <p class="text-gray-600 text-sm">تأمین امنیت انرژی صنعت و ایجاد زنجیره ارزش تجهیزات خورشیدی.</p>
-                    </div>
-                    <button class="ai-analysis-btn mt-4 bg-[#00A6FB] text-white px-4 py-2 rounded-lg hover:bg-[#0582CA] transition" data-pillar="انقلاب خورشیدی">✨ تحلیل هوشمند</button>
-                </div>
-                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow flex flex-col justify-between">
-                    <div>
-                        <p class="text-5xl mb-4">🔬</p>
-                        <h3 class="text-xl font-bold">کاشت برای آینده</h3>
-                        <p class="text-gray-600 text-sm">سرمایه‌گذاری در تحقیق و توسعه صنعت نوظهور تیتانیوم.</p>
-                    </div>
-                     <button class="ai-analysis-btn mt-4 bg-[#00A6FB] text-white px-4 py-2 rounded-lg hover:bg-[#0582CA] transition" data-pillar="صنعت تیتانیوم">✨ تحلیل هوشمند</button>
-                </div>
+                <!-- Projects Data -->
+                 <div class="gantt-row"><div class="gantt-project-name">دفتر پروژه (PMO)</div><div class="gantt-bar" style="--start: 2; --end: 3;"></div></div>
+                 <div class="gantt-row"><div class="gantt-project-name">پنجره واحد سرمایه‌گذاری</div><div class="gantt-bar" style="--start: 2; --end: 4;"></div></div>
+                 <div class="gantt-row"><div class="gantt-project-name">پارک سازه‌های فولادی</div><div class="gantt-bar" style="--start: 3; --end: 8;"></div></div>
+                 <div class="gantt-row"><div class="gantt-project-name">مرکز آزمون قطعات خودرو</div><div class="gantt-bar" style="--start: 3; --end: 8;"></div></div>
+                 <div class="gantt-row"><div class="gantt-project-name">کریدور گلخانه کم‌مصرف</div><div class="gantt-bar" style="--start: 5; --end: 9;"></div></div>
+                 <div class="gantt-row"><div class="gantt-project-name">موج اول نیروگاه خورشیدی</div><div class="gantt-bar" style="--start: 3; --end: 6;"></div></div>
+                 <div class="gantt-row"><div class="gantt-project-name">آزمایشگاه/مرکز توسعه TiO2</div><div class="gantt-bar" style="--start: 5; --end: 7;"></div></div>
             </div>
         </section>
 
-        <section id="timeline" class="mb-12 bg-white rounded-lg shadow-xl p-8">
-            <h2 class="text-3xl font-bold text-center mb-8 text-[#006494]">نقشه راه و زمان‌بندی پروژه‌های کلیدی</h2>
-            <p class="text-center max-w-3xl mx-auto mb-8 text-gray-600">این نمودار زمان‌بندی اجرای پروژه‌های پیشران را از سال ۱۴۰۴ تا ۱۴۰۸ نشان می‌دهد. هر نوار نشان‌دهنده بازه زمانی اجرای یک پروژه کلیدی است که به تحقق چشم‌انداز صنعتی استان کمک می‌کند.</p>
-            <div class="gantt-chart-container">
-                <canvas id="timelineChart"></canvas>
-            </div>
-        </section>
-        
-        <section id="kpis" class="mb-12">
-            <h2 class="text-3xl font-bold text-center mb-8 text-[#006494]">اهداف کلیدی تا افق ۱۴۰۸</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div class="kpi-card p-6 rounded-lg shadow-md text-center">
-                    <p class="text-5xl font-black text-[#00A6FB]">-۶۰٪</p>
-                    <p class="mt-2 text-lg">کاهش میانگین زمان صدور مجوزهای سرمایه‌گذاری</p>
-                </div>
-                <div class="kpi-card p-6 rounded-lg shadow-md text-center">
-                    <p class="text-5xl font-black text-[#00A6FB]">۳۰۰ مگاوات</p>
-                    <p class="mt-2 text-lg">ظرفیت نصب‌شده جدید نیروگاه‌های خورشیدی</p>
-                </div>
-                <div class="kpi-card p-6 rounded-lg shadow-md text-center">
-                    <p class="text-5xl font-black text-[#00A6FB]">-۴۰٪</p>
-                    <p class="mt-2 text-lg">کاهش ضایعات پس از برداشت در محصولات کشاورزی جیرفت</p>
-                </div>
-                <div class="kpi-card p-6 rounded-lg shadow-md text-center">
-                    <p class="text-5xl font-black text-[#00A6FB]">۵۰ قلم</p>
-                    <p class="mt-2 text-lg">بومی‌سازی قطعات و تجهیزات کلیدی در صنعت فولاد</p>
-                </div>
-            </div>
-        </section>
-
-        <section id="governance" class="mb-12">
-            <h2 class="text-3xl font-bold text-center mb-8 text-[#006494]">ساختار راهبری و اجرا</h2>
-            <div class="max-w-2xl mx-auto">
-                <div class="bg-white p-6 rounded-lg shadow-md text-center">
-                    <div class="p-4 bg-[#003554] text-white rounded-t-lg">
-                        <h3 class="text-xl font-bold">شورای سیاست‌گذاری صنعتی استان</h3>
-                        <p class="text-sm">(ریاست مشترک استانداری و اتاق بازرگانی)</p>
-                    </div>
-                    <div class="h-12 w-1 bg-[#0582CA] mx-auto"></div>
-                    <div class="p-4 bg-[#0582CA] text-white rounded-b-lg">
-                        <h3 class="text-xl font-bold">دفتر مدیریت پروژه (PMO)</h3>
-                        <p class="text-sm">(بازوی اجرایی و مرکز عملیاتی)</p>
-                    </div>
-                </div>
-                <p class="text-center mt-4 text-gray-600">یک ساختار راهبری چابک و کارآمد، متشکل از نهاد سیاست‌گذار و بازوی اجرایی، وظیفه هماهنگی، نظارت بر شاخص‌ها و رفع موانع را بر عهده دارد تا اجرای موفقیت‌آمیز برنامه تضمین شود.</p>
-            </div>
-        </section>
-
-        <section id="ai-assistant" class="mb-12 bg-white rounded-lg shadow-xl p-8">
-            <h2 class="text-3xl font-bold text-center mb-4 text-[#006494]">✨ از دستیار هوشمند بپرسید</h2>
-            <p class="text-center max-w-3xl mx-auto mb-6 text-gray-600">سوالی در مورد این برنامه راهبردی دارید؟ از دستیار هوشمند مبتنی بر Gemini بپرسید تا یک تحلیل فوری دریافت کنید.</p>
-            <form id="ai-assistant-form" class="max-w-2xl mx-auto">
-                <div class="flex flex-col sm:flex-row gap-2">
-                    <input type="text" id="ai-question-input" placeholder="مثال: بزرگترین ریسک‌های این طرح چیست؟" class="flex-grow p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#00A6FB] focus:outline-none">
-                    <button type="submit" class="bg-[#003554] text-white px-6 py-3 rounded-lg hover:bg-[#051923] transition font-bold">ارسال</button>
-                </div>
-            </form>
-            <div id="ai-assistant-response-container" class="mt-6 max-w-3xl mx-auto bg-gray-50 p-6 rounded-lg hidden whitespace-pre-wrap">
-            </div>
+        <!-- AI Assistant Section -->
+        <section id="ai-assistant" class="my-16 text-center">
+             <h2 class="text-3xl font-bold text-gray-900 mb-4">✨ از دستیار هوشمند بپرسید</h2>
+             <p class="max-w-2xl mx-auto text-lg text-gray-600 mb-6">
+                سوالات خود را در مورد برنامه راهبردی صنعتی کرمان بپرسید تا یک تحلیل جامع دریافت کنید.
+             </p>
+             <div class="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-lg">
+                <textarea id="user-prompt" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 transition" rows="4" placeholder="مثال: بزرگترین ریسک‌های این برنامه کدامند و چگونه مدیریت می‌شوند؟"></textarea>
+                <button id="ask-ai-button" class="mt-4 w-full bg-gray-800 text-white font-semibold py-3 px-6 rounded-lg hover:bg-gray-900 transition text-lg">ارسال سوال و دریافت تحلیل</button>
+             </div>
         </section>
 
     </main>
     
-    <div id="ai-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-50">
-        <div class="bg-white rounded-lg shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col">
-            <div class="flex justify-between items-center p-4 border-b">
-                <h3 id="modal-title" class="text-xl font-bold text-[#003554]">تحلیل هوشمند</h3>
-                <button id="modal-close-btn" class="text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
+    <!-- AI Modal -->
+    <div id="ai-modal" class="modal fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 z-50 opacity-0 pointer-events-none">
+        <div class="modal-content bg-white rounded-lg shadow-2xl p-6 md:p-8 max-w-3xl w-full text-right transform scale-95">
+            <div class="flex justify-between items-center mb-4 border-b pb-3">
+                <h3 class="text-2xl font-bold text-gray-800">تحلیل هوشمند Gemini</h3>
+                <button id="close-modal" class="text-gray-500 hover:text-red-600 text-3xl">&times;</button>
             </div>
-            <div id="modal-content" class="p-6 overflow-y-auto whitespace-pre-wrap">
-                <div id="modal-loader" class="flex flex-col items-center justify-center py-10">
-                    <div class="loader"></div>
-                    <p class="mt-4 text-lg text-gray-600">در حال تحلیل با Gemini...</p>
-                </div>
-                <div id="modal-text-content"></div>
+            <div id="modal-body" class="prose prose-lg max-w-none text-gray-700 leading-relaxed" style="max-height: 70vh; overflow-y: auto;">
+                <!-- AI response will be injected here -->
             </div>
         </div>
     </div>
 
-    <footer class="bg-[#003554] text-white text-center p-4 mt-8">
-        <p>طراحی شده بر اساس سند راهبردی سیاست صنعتی استان کرمان (۱۴۰۸-۱۴۰۴)</p>
-    </footer>
 
     <script>
-        const tooltipTitleCallback = (tooltipItems) => {
-            const item = tooltipItems[0];
-            let label = item.chart.data.labels[item.dataIndex];
-            if (Array.isArray(label)) {
-                return label.join(' ');
-            }
-            return label;
-        };
-
-        const wrapLabel = (str, maxWidth) => {
-            if (str.length <= maxWidth) {
-                return str;
-            }
-            const words = str.split(' ');
-            let lines = [];
-            let currentLine = '';
-            for (const word of words) {
-                if ((currentLine + word).length > maxWidth) {
-                    lines.push(currentLine.trim());
-                    currentLine = '';
-                }
-                currentLine += word + ' ';
-            }
-            lines.push(currentLine.trim());
-            return lines.filter(line => line.length > 0);
-        };
-
-        const colors = {
-            primary: '#00A6FB',
-            secondary: '#0582CA',
-            dark: '#003554',
-            light: '#006494',
-            accent: '#051923'
-        };
-
-        const dualityData = {
-            labels: ['۱٪ برتر (شرکت‌های بزرگ)', '۹۹٪ سایر شرکت‌ها'],
-            datasets: [{
-                label: 'سهم در ارزش افزوده صنعتی',
-                data: [78, 22],
-                backgroundColor: [colors.dark, colors.primary],
-                borderColor: '#ffffff',
-                borderWidth: 2
-            }]
-        };
-        new Chart(document.getElementById('dualityChart'), {
-            type: 'doughnut',
-            data: dualityData,
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { position: 'top' },
-                    tooltip: { callbacks: { title: tooltipTitleCallback } }
-                }
-            }
-        });
-
-        const investmentData = {
-            labels: ['فولاد', 'خودرو', 'کشاورزی', 'مس', 'انرژی خورشیدی', 'تجهیزات خورشیدی', 'تیتانیوم', 'توانمندسازها'],
-            datasets: [
-                {
-                    label: 'سرمایه‌گذاری عمومی',
-                    data: [270, 120, 100, 90, 10, 30, 35, 65],
-                    backgroundColor: colors.secondary,
+        document.addEventListener('DOMContentLoaded', function () {
+            // Investment Chart
+            const ctx = document.getElementById('investmentChart').getContext('2d');
+            const investmentChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['فولاد', 'مس', 'انرژی خورشیدی', 'خودرو', 'کشاورزی فناورانه', 'تیتانیوم'],
+                    datasets: [{
+                        label: 'سرمایه‌گذاری دولتی (میلیارد تومان)',
+                        data: [270, 90, 40, 120, 100, 35],
+                        backgroundColor: 'rgba(59, 130, 246, 0.8)',
+                        borderColor: 'rgba(59, 130, 246, 1)',
+                        borderWidth: 1
+                    }, {
+                        label: 'سرمایه‌گذاری خصوصی (میلیارد تومان)',
+                        data: [1280, 900, 2810, 600, 700, 200],
+                        backgroundColor: 'rgba(234, 179, 8, 0.8)',
+                        borderColor: 'rgba(234, 179, 8, 1)',
+                        borderWidth: 1
+                    }]
                 },
-                {
-                    label: 'سرمایه‌گذاری خصوصی',
-                    data: [1280, 600, 700, 900, 2560, 250, 200, 0],
-                    backgroundColor: colors.primary,
-                }
-            ]
-        };
-        new Chart(document.getElementById('investmentChart'), {
-            type: 'bar',
-            data: investmentData,
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                indexAxis: 'y',
-                scales: {
-                    x: { stacked: true, title: { display: true, text: 'میلیارد تومان' } },
-                    y: { stacked: true }
-                },
-                plugins: {
-                    legend: { position: 'top' },
-                    tooltip: { callbacks: { title: tooltipTitleCallback } }
-                }
-            }
-        });
-
-        const timelineRawData = [
-            { project: 'شورای سیاست صنعتی و PMO', start: 1, end: 1 },
-            { project: 'پنجره واحد سرمایه‌گذاری', start: 1, end: 2 },
-            { project: 'دستورالعمل آب هوشمند', start: 1, end: 1 },
-            { project: 'پارک سازه‌های فولادی', start: 2, end: 7 },
-            { project: 'بومی‌سازی قطعات فولادی', start: 2, end: 5 },
-            { project: 'آزمایشگاه سیم و کابل', start: 2, end: 5 },
-            { project: 'بازیافت ضایعات مسی', start: 2, end: 7 },
-            { project: 'مرکز آزمون خودرو', start: 2, end: 7 },
-            { project: 'کنسرسیوم قالب‌سازی', start: 2, end: 6 },
-            { project: 'طراحی بندر خشک سیرجان', start: 2, end: 3 },
-            { project: 'طراحی هاب سردخانه جیرفت', start: 2, end: 2 },
-            { project: 'موج اول نیروگاه خورشیدی', start: 2, end: 5 },
-            { project: 'گلخانه کم‌مصرف جیرفت', start: 4, end: 7 },
-            { project: 'ساخت هاب سردخانه جیرفت', start: 4, end: 7 },
-            { project: 'پارک تجهیزات خورشیدی', start: 4, end: 6 },
-            { project: 'پایلوت خورشید+آب‌شیرین‌کن', start: 4, end: 6 },
-            { project: 'مرکز توسعه تیتانیوم', start: 4, end: 6 },
-        ];
-
-        const timelineLabels = timelineRawData.map(p => wrapLabel(p.project, 25));
-        const timelineData = {
-            labels: timelineLabels,
-            datasets: [{
-                label: 'بازه زمانی پروژه',
-                data: timelineRawData.map(p => [p.start, p.end]),
-                backgroundColor: (context) => {
-                    const value = context.raw[1] - context.raw[0];
-                    if (value > 4) return colors.dark;
-                    if (value > 2) return colors.secondary;
-                    return colors.primary;
-                },
-                borderColor: colors.accent,
-                borderWidth: 1,
-                barPercentage: 0.6,
-                categoryPercentage: 0.8,
-                borderRadius: 4,
-            }]
-        };
-        new Chart(document.getElementById('timelineChart'), {
-            type: 'bar',
-            data: timelineData,
-            options: {
-                indexAxis: 'y',
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    x: {
-                        min: 0,
-                        max: 16,
-                        title: { display: true, text: 'فصل‌های اجرایی از ابتدای ۱۴۰۴' },
-                        ticks: {
-                            stepSize: 1,
-                            callback: function(value, index, ticks) {
-                                if (value === 0) return '';
-                                const year = 1404 + Math.floor((value - 1) / 4);
-                                const quarter = ((value - 1) % 4) + 1;
-                                return `ف${quarter} ${year}`;
-                            }
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    scales: {
+                        x: {
+                            stacked: true,
+                            title: { display: true, text: 'حجم سرمایه‌گذاری (میلیارد تومان)' }
+                        },
+                        y: {
+                            stacked: true
                         }
                     },
-                    y: {
-                        ticks: {
-                            font: { size: 10 }
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'تفکیک سرمایه‌گذاری دولتی و خصوصی در محورهای اصلی',
+                            font: { size: 18 }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                title: function(tooltipItems) {
+                                    const item = tooltipItems[0];
+                                    let label = item.chart.data.labels[item.dataIndex];
+                                    return Array.isArray(label) ? label.join(' ') : label;
+                                }
+                            }
                         }
                     }
-                },
-                plugins: {
-                    legend: { display: false },
-                    tooltip: {
-                        callbacks: {
-                            title: tooltipTitleCallback,
-                            label: function(context) {
-                                const start = context.raw[0];
-                                const end = context.raw[1];
-                                const startYear = 1404 + Math.floor((start - 1) / 4);
-                                const startQ = ((start - 1) % 4) + 1;
-                                const endYear = 1404 + Math.floor((end - 1) / 4);
-                                const endQ = ((end - 1) % 4) + 1;
-                                return `از فصل ${startQ} سال ${startYear} تا فصل ${endQ} سال ${endYear}`;
+                }
+            });
+
+            // Gemini API Integration
+            const modal = document.getElementById('ai-modal');
+            const modalBody = document.getElementById('modal-body');
+            const closeModalButton = document.getElementById('close-modal');
+
+            function openModal() {
+                modal.classList.remove('opacity-0', 'pointer-events-none');
+                modal.querySelector('.modal-content').classList.remove('scale-95');
+            }
+
+            function closeModal() {
+                modal.classList.add('opacity-0', 'pointer-events-none');
+                modal.querySelector('.modal-content').classList.add('scale-95');
+            }
+
+            document.querySelectorAll('.ai-button').forEach(button => {
+                button.addEventListener('click', function() {
+                    const prompt = this.getAttribute('data-prompt');
+                    modalBody.innerHTML = '<p>در حال پردازش و تحلیل... لطفاً چند لحظه صبر کنید.</p>';
+                    openModal();
+                    callGeminiAPI(prompt, modalBody);
+                });
+            });
+
+            document.getElementById('ask-ai-button').addEventListener('click', function() {
+                const userPrompt = document.getElementById('user-prompt').value;
+                if (userPrompt.trim() === '') {
+                    alert('لطفاً سوال خود را در کادر مربوطه وارد کنید.');
+                    return;
+                }
+                const fullPrompt = `با توجه به برنامه راهبردی سیاست صنعتی استان کرمان، به سوال زیر پاسخ تحلیلی بده: "${userPrompt}"`;
+                modalBody.innerHTML = '<p>در حال پردازش و تحلیل... لطفاً چند لحظه صبر کنید.</p>';
+                openModal();
+                callGeminiAPI(fullPrompt, modalBody);
+            });
+
+            closeModalButton.addEventListener('click', closeModal);
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+
+            async function callGeminiAPI(prompt, targetElement) {
+                // =======================================================================
+                // =======================================================================
+                //
+                //   توجه: کلید API خود را که از Google AI Studio دریافت کرده‌اید،
+                //   در خط زیر و به جای عبارت "PASTE_YOUR_GEMINI_API_KEY_HERE" قرار دهید.
+                //
+                // =======================================================================
+                // =======================================================================
+                const apiKey = "AIzaSyCAhG5v8Zf8HTfkrro_odB9gykHwfyTkX8";
+
+                if (apiKey === "AIzaSyCAhG5v8Zf8HTfkrro_odB9gykHwfyTkX8" || apiKey === "") {
+                    targetElement.innerHTML = `
+                        <div class="text-red-700 bg-red-100 border-r-4 border-red-500 p-4 rounded-lg">
+                            <h4 class="font-bold text-lg mb-2">خطا در اتصال به سرویس هوشمند</h4>
+                            <p>کلید API برای مدل Gemini پیدا نشد. لطفاً کد را ویرایش کرده و کلید API معتبر خود را در متغیر 'apiKey' قرار دهید تا این قابلیت فعال شود.</p>
+                        </div>`;
+                    return;
+                }
+
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+                
+                let retries = 3;
+                let delay = 1000;
+
+                for (let i = 0; i < retries; i++) {
+                    try {
+                        const response = await fetch(apiUrl, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+                        });
+
+                        if (!response.ok) {
+                            if (response.status === 429 || response.status >= 500) {
+                                throw new Error(`HTTP error! status: ${response.status}`);
                             }
+                            const errorData = await response.json();
+                             targetElement.innerHTML = `<p class="text-red-600">خطا: ${errorData.error.message}</p>`;
+                             return;
+                        }
+
+                        const result = await response.json();
+                        const candidate = result.candidates?.[0];
+                        if (candidate && candidate.content?.parts?.[0]?.text) {
+                            let text = candidate.content.parts[0].text;
+                            // Basic markdown to HTML conversion
+                            text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                            text = text.replace(/\*(.*?)\*/g, '<em>$1</em>');
+                            text = text.replace(/(\n\s*-\s)/g, '<br>• ');
+                            text = text.replace(/\n/g, '<br>');
+                            targetElement.innerHTML = text;
+                        } else {
+                           targetElement.innerHTML = '<p class="text-red-600">پاسخی از سرویس هوشمند دریافت نشد. لطفاً دوباره تلاش کنید.</p>';
+                        }
+                        return;
+
+                    } catch (error) {
+                        console.error(`Attempt ${i + 1} failed:`, error);
+                        if (i < retries - 1) {
+                            await new Promise(res => setTimeout(res, delay));
+                            delay *= 2;
+                        } else {
+                            targetElement.innerHTML = `<p class="text-red-600">خطا در برقراری ارتباط با سرور. لطفاً از اتصال اینترنت خود اطمینان حاصل کرده و مجدداً تلاش کنید.</p>`;
                         }
                     }
                 }
             }
         });
-
-        // Gemini API Integration
-        const modal = document.getElementById('ai-modal');
-        const modalTitle = document.getElementById('modal-title');
-        const modalContent = document.getElementById('modal-content');
-        const modalLoader = document.getElementById('modal-loader');
-        const modalTextContent = document.getElementById('modal-text-content');
-        const modalCloseBtn = document.getElementById('modal-close-btn');
-
-        const openModal = () => modal.classList.remove('hidden');
-        const closeModal = () => modal.classList.add('hidden');
-
-        modalCloseBtn.addEventListener('click', closeModal);
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                closeModal();
-            }
-        });
-
-        async function callGeminiAPI(prompt, targetElement) {
-            // =======================================================================
-            // ==================> توجه: کلید API خود را اینجا قرار دهید <==================
-            // =======================================================================
-             const apiKey = "curl "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent" \
-  -H 'Content-Type: application/json' \
-  -H 'X-goog-api-key: GEMINI_API_KEY' \
-  -X POST \
-  -d '{
-    "contents": [
-      {
-        "parts": [
-          {
-            "text": "Explain how AI works in a few words"
-          }
-        ]
-      }
-    ]
-  }'"; // <--- کلید API خود را جایگزین این عبارت کنید
-             
-             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
-             
-             let retries = 3;
-             let delay = 1000;
-
-             while (retries > 0) {
-                 try {
-                     const response = await fetch(apiUrl, {
-                         method: 'POST',
-                         headers: { 'Content-Type': 'application/json' },
-                         body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
-                     });
-
-                     if (!response.ok) {
-                         throw new Error(`HTTP error! status: ${response.status}`);
-                     }
-
-                     const result = await response.json();
-                     const text = result.candidates?.[0]?.content?.parts?.[0]?.text;
-                     if (text) {
-                         targetElement.innerHTML = text.replace(/\*/g, '<span class="font-bold">').replace(/(\n)/g, '<br/>');
-                         return;
-                     } else {
-                         throw new Error("پاسخ نامعتبر از Gemini API");
-                     }
-                 } catch (error) {
-                     console.error("Gemini API call failed:", error);
-                     retries--;
-                     if (retries === 0) {
-                         targetElement.textContent = "متاسفانه در حال حاضر امکان تحلیل وجود ندارد. لطفا بعدا تلاش کنید.";
-                     } else {
-                        await new Promise(res => setTimeout(res, delay));
-                        delay *= 2;
-                     }
-                 }
-             }
-        }
-
-
-        document.querySelectorAll('.ai-analysis-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const pillar = btn.dataset.pillar;
-                modalTitle.textContent = `تحلیل هوشمند SWOT: ${pillar}`;
-                modalTextContent.innerHTML = '';
-                modalLoader.style.display = 'flex';
-                openModal();
-                
-                const prompt = `به عنوان یک تحلیلگر ارشد استراتژی صنعتی، یک تحلیل SWOT (نقاط قوت، ضعف، فرصت، تهدید) برای محور راهبردی "${pillar}" در برنامه توسعه صنعتی استان کرمان ارائه دهید. تحلیل خود را بر اساس چالش‌های کلیدی استان مانند کمبود آب و انرژی و هدف گذار از اقتصاد منبع‌محور به اقتصاد دانش‌بنیان، استوار کنید.`;
-                
-                callGeminiAPI(prompt, modalTextContent).finally(() => {
-                    modalLoader.style.display = 'none';
-                });
-            });
-        });
-
-        const aiAssistantForm = document.getElementById('ai-assistant-form');
-        const aiQuestionInput = document.getElementById('ai-question-input');
-        const aiResponseContainer = document.getElementById('ai-assistant-response-container');
-
-        aiAssistantForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const question = aiQuestionInput.value.trim();
-            if (!question) return;
-
-            aiResponseContainer.classList.remove('hidden');
-            aiResponseContainer.innerHTML = '<div class="flex items-center justify-center"><div class="loader"></div><p class="mr-4">در حال پردازش سوال شما...</p></div>';
-            
-            const prompt = `شما یک دستیار هوشمند هستید که به سوالات مربوط به "سند راهبردی سیاست صنعتی استان کرمان (۱۴۰۸-۱۴۰۴)" پاسخ می‌دهید. خلاصه سند این است: این یک برنامه ۸۲۱۰ میلیارد تومانی برای گذار کرمان از اقتصاد مبتنی بر منابع به یک قطب صنعتی پیشرفته است که با چالش‌های آب و انرژی روبروست و بر ۵ محور اصلی (فلزات، خودرو، کشاورزی فناورانه، انرژی خورشیدی، و تیتانیوم) تمرکز دارد و مدل مالی آن بر اهرم‌سازی سرمایه خصوصی استوار است. حالا به این سوال پاسخ دهید: ${question}`;
-
-            callGeminiAPI(prompt, aiResponseContainer);
-            aiQuestionInput.value = '';
-        });
-
     </script>
+
 </body>
 </html>
-
-
-
