@@ -3,364 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>اینفوگرافیک برنامه اقدام راهبردی سیاست صنعتی استان کرمان (۱۴۰۴-۱۴۰۸)</title>
+    <title>سه ستون تاب‌آوری اندونزی - مدلی برای بازسازی</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Vazirmatn', sans-serif;
             scroll-behavior: smooth;
         }
-        .rtl-grid {
-            direction: rtl;
-        }
-        .gantt-chart {
-            display: grid;
-            grid-template-columns: 150px repeat(12, 1fr);
-            gap: 2px;
-            font-size: 0.75rem;
-        }
-        .gantt-header, .gantt-row {
-            display: contents;
-        }
-        .gantt-cell {
-            padding: 8px 4px;
-            text-align: center;
-            background-color: #f3f4f6;
-            border: 1px solid #e5e7eb;
-        }
-        .gantt-project-name {
-            grid-column-start: 1;
-            padding: 8px;
-            background-color: #e5e7eb;
-            font-weight: 500;
-            text-align: right;
-            border: 1px solid #d1d5db;
-        }
-        .gantt-bar {
-            grid-column: var(--start) / var(--end);
-            background-color: #3b82f6;
-            margin: 4px 0;
-            border-radius: 4px;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 20px;
-        }
-        .modal {
-            transition: opacity 0.3s ease;
-        }
-        .modal-content {
-            transition: transform 0.3s ease;
+        .hero-gradient {
+            background: linear-gradient(135deg, #4f46e5 0%, #a21caf 100%);
         }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800">
+<body class="bg-slate-50 text-slate-700">
 
-    <!-- Header -->
-    <header class="bg-white shadow-md sticky top-0 z-50">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <h1 class="text-xl md:text-2xl font-bold text-blue-800">برنامه اقدام صنعتی کرمان ۱۴۰۴-۱۴۰۸</h1>
-            <nav class="hidden md:flex space-x-reverse space-x-6">
-                <a href="#vision" class="text-gray-600 hover:text-blue-600">چشم‌انداز</a>
-                <a href="#investment" class="text-gray-600 hover:text-blue-600">سرمایه‌گذاری</a>
-                <a href="#pillars" class="text-gray-600 hover:text-blue-600">محورهای راهبردی</a>
-                <a href="#timeline" class="text-gray-600 hover:text-blue-600">زمان‌بندی</a>
-                <a href="#ai-assistant" class="text-gray-600 hover:text-blue-600">دستیار هوشمند</a>
-            </nav>
+    <!-- Hero Section -->
+    <header class="hero-gradient text-white">
+        <div class="container mx-auto px-6 py-24 text-center">
+            <h1 class="text-4xl md:text-6xl font-black leading-tight mb-4">سه ستون تاب‌آوری اندونزی</h1>
+            <p class="text-lg md:text-xl max-w-3xl mx-auto text-slate-200">تحلیلی عمیق بر مدل موفق بازسازی اقتصادی و اجتماعی پس از بحران‌های بزرگ</p>
         </div>
     </header>
 
-    <main class="container mx-auto px-6 py-8">
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 py-16">
 
-        <!-- Vision Section -->
-        <section id="vision" class="my-12 text-center">
-            <h2 class="text-3xl font-bold text-gray-900 mb-4">گذار از اقتصاد منبع‌محور به قطب صنعتی پایدار</h2>
-            <p class="max-w-3xl mx-auto text-lg text-gray-600">
-                برنامه راهبردی صنعتی کرمان با هدف رفع "دوگانگی اقتصادی" استان و غلبه بر چالش‌های کلیدی آب و انرژی، به دنبال ایجاد یک اکوسیستم صنعتی دانش‌بنیان، رقابت‌پذیر و هم‌افزا است.
+        <!-- Introduction -->
+        <section class="text-center max-w-4xl mx-auto mb-20">
+            <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4">چرا مدل اندونزی اهمیت دارد؟</h2>
+            <p class="text-lg leading-relaxed">
+                اندونزی، کشوری واقع در "حلقه آتش" اقیانوس آرام، همواره با تهدید بلایای طبیعی ویرانگر روبروست. این کشور در پاسخ به فجایعی مانند سونامی ۲۰۰۴ آچه، مدلی منسجم برای بازسازی توسعه داده است که بر سه پایه استوار است. این رویکرد نه تنها زیرساخت‌ها را بازسازی می‌کند، بلکه با درس‌آموزی از بحران‌ها، جوامع را تاب‌آورتر از گذشته می‌سازد.
             </p>
-            <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-8 rtl-grid">
-                <div class="bg-white p-6 rounded-lg shadow-lg">
-                    <h3 class="text-xl font-semibold text-red-600 mb-2">چالش کلیدی: دوگانگی اقتصادی</h3>
-                    <p>وابستگی به صنایع معدنی بزرگ در کنار بخش‌های خرد و سنتی، مانع رشد پایدار و متوازن شده است.</p>
+        </section>
+
+        <!-- Pillars Diagram Section -->
+        <section id="pillars" class="mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-12 text-center">نمودار هم‌افزایی سه پایه تاب‌آوری</h2>
+            
+            <!-- Diagram for Desktop -->
+            <div class="hidden md:flex justify-center items-center mb-12">
+                <div class="relative w-[32rem] h-[32rem]">
+                    <!-- Central Goal Text -->
+                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 text-center bg-white/70 backdrop-blur-md p-6 rounded-full shadow-xl">
+                        <h3 class="text-2xl font-black text-slate-900">تاب‌آوری پایدار</h3>
+                        <p class="text-sm text-slate-700">(نتیجه هم‌افزایی)</p>
+                    </div>
+
+                    <!-- Pillar 1: Central Government -->
+                    <div class="absolute top-0 left-4 w-64 h-64 rounded-full bg-violet-500/30 backdrop-blur-sm flex items-center justify-center text-center p-4 z-10">
+                        <h4 class="font-bold text-xl text-violet-900">اقتدار دولت مرکزی</h4>
+                    </div>
+
+                    <!-- Pillar 2: Finance -->
+                    <div class="absolute top-0 right-4 w-64 h-64 rounded-full bg-orange-500/30 backdrop-blur-sm flex items-center justify-center text-center p-4 z-10">
+                         <h4 class="font-bold text-xl text-orange-900">تأمین مالی پیشرفته</h4>
+                    </div>
+
+                    <!-- Pillar 3: Public Participation -->
+                    <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-64 h-64 rounded-full bg-teal-500/30 backdrop-blur-sm flex items-center justify-center text-center p-4 z-10">
+                        <h4 class="font-bold text-xl text-teal-900">مشارکت همگانی</h4>
+                    </div>
                 </div>
-                <div class="bg-white p-6 rounded-lg shadow-lg">
-                    <h3 class="text-xl font-semibold text-blue-600 mb-2">چشم‌انداز ۱۴۰۸: قطب صنعتی پیشرفته</h3>
-                    <p>تبدیل شدن به یک مرکز صنعتی نوآور با زنجیره‌های ارزش کامل و رویکرد صادرات‌گرا.</p>
+            </div>
+            
+            <!-- Detailed Explanations -->
+            <div class="space-y-8">
+                 <div class="bg-white p-8 rounded-lg shadow-lg border-r-8 border-violet-500">
+                    <h3 class="text-2xl font-bold text-slate-800 mb-4">پایه اول: اقتدار دولت مرکزی (فرماندهی واحد)</h3>
+                    <p class="leading-loose text-slate-600">
+                        تجربه سونامی ۲۰۰۴ نشان داد که یک پاسخ ناهماهنگ و پراکنده منجر به اتلاف منابع و تأخیر در امدادرسانی می‌شود. در پاسخ، دولت اندونزی **آژانس ملی مدیریت بلایا (BNPB)** را تأسیس کرد. این نهاد قدرتمند، که مستقیماً به رئیس جمهور گزارش می‌دهد، به عنوان فرماندهی مرکزی عمل می‌کند. وظیفه اصلی آن، هماهنگ‌سازی تمام بازیگران، از وزارتخانه‌های مختلف و ارتش گرفته تا سازمان‌های غیردولتی ملی و بین‌المللی است. این ساختار متمرکز تضمین می‌کند که یک استراتژی ملی واحد وجود داشته باشد، استانداردها رعایت شوند و منابع به صورت بهینه و بر اساس اولویت‌های واقعی تخصیص یابند. این اقتدار مرکزی از هرج‌ومرج جلوگیری کرده و یک چارچوب پاسخگویی شفاف ایجاد می‌کند.
+                    </p>
                 </div>
-                <div class="bg-white p-6 rounded-lg shadow-lg">
-                    <h3 class="text-xl font-semibold text-yellow-600 mb-2">محدودیت‌های اصلی: آب و انرژی</h3>
-                    <p>مدیریت هوشمند منابع با تکیه بر فناوری‌های نوین و انرژی‌های تجدیدپذیر به عنوان پیش‌شرط توسعه.</p>
+                 <div class="bg-white p-8 rounded-lg shadow-lg border-r-8 border-orange-500">
+                    <h3 class="text-2xl font-bold text-slate-800 mb-4">پایه دوم: تأمین مالی پیشرفته (آمادگی پیشگیرانه)</h3>
+                    <p class="leading-loose text-slate-600">
+                        اتکا به بودجه‌های اضطراری پس از وقوع بحران، فرآیند بازسازی را به شدت کند می‌کند. اندونزی با پیاده‌سازی استراتژی **تأمین مالی و بیمه ریسک بلایا (DRFI)**، این پارادایم را تغییر داده است. این استراتژی یک مدل چندلایه است که منابع مالی را *قبل* از وقوع فاجعه آماده می‌کند. لایه اصلی آن، **صندوق انباشت بحران (PFB)** است که مانند یک حساب پس‌انداز ملی برای بلایا عمل می‌کند. این صندوق با منابعی از بودجه دولتی و کمک‌های توسعه‌ای تغذیه می‌شود. لایه‌های بعدی شامل ابزارهای انتقال ریسک مانند بیمه‌های فاجعه و اوراق بهادار بلایا است. این رویکرد پیشگیرانه به دولت اجازه می‌دهد تا در ساعات اولیه پس از بحران، بدون انتظار برای کمک‌های خارجی، منابع مالی لازم را به مناطق آسیب‌دیده تزریق کند.
+                    </p>
+                </div>
+                 <div class="bg-white p-8 rounded-lg shadow-lg border-r-8 border-teal-500">
+                    <h3 class="text-2xl font-bold text-slate-800 mb-4">پایه سوم: مشارکت همگانی (مالکیت جامعه‌محور)</h3>
+                    <p class="leading-loose text-slate-600">
+                        پایدارترین بازسازی آن است که توسط خود مردم پذیرفته و اجرا شود. مدل اندونزی، به ویژه در بازسازی عظیم استان آچه، بر رویکرد **توسعه جامعه‌محور (CDD)** تأکید دارد. به جای اجرای طرح‌های از پیش تعیین شده توسط دولت مرکزی، به جوامع محلی و روستاها کمک‌های مالی مستقیم (Block Grants) داده شد و قدرت تصمیم‌گیری در مورد نحوه بازسازی خانه‌ها، مدارس و زیرساخت‌های محلی به خودشان واگذار گردید. این فرآیند، با وجود پیچیدگی، باعث ایجاد حس مالکیت و مسئولیت در میان مردم شد. نتیجه آن، ساخت‌وسازهایی بود که با فرهنگ و نیازهای واقعی مردم همخوانی داشت و در بلندمدت توسط خود جامعه نگهداری و محافظت می‌شد.
+                    </p>
                 </div>
             </div>
         </section>
 
-        <!-- Investment Section -->
-        <section id="investment" class="my-16 bg-white p-8 rounded-xl shadow-lg">
-            <h2 class="text-3xl font-bold text-center text-gray-900 mb-2">مدل سرمایه‌گذاری هوشمند: اهرم بخش خصوصی</h2>
-            <p class="text-center text-lg text-gray-600 mb-8">این برنامه با جذب بیش از ۶.۷ هزار میلیارد تومان سرمایه‌گذاری بخش خصوصی، نقشی کاتالیزوری برای دولت تعریف می‌کند.</p>
-            <div class="chart-container" style="position: relative; height:40vh; width:80vw; max-width: 900px; margin: auto;">
-                <canvas id="investmentChart"></canvas>
+        <!-- Synthesis Section -->
+        <section class="mt-20 bg-slate-100 rounded-lg p-8 md:p-12">
+            <div class="text-center max-w-4xl mx-auto">
+                <h2 class="text-3xl font-bold text-slate-900 mb-6">هم‌افزایی پایه‌ها: رمز موفقیت</h2>
+                <p class="text-lg leading-relaxed">
+                    قدرت واقعی مدل اندونزی در انزوای این سه پایه نیست، بلکه در **تعامل و هم‌افزایی** هوشمندانه آن‌هاست. **اقتدار مرکزی** جهت‌گیری استراتژیک را تعیین می‌کند، **سیستم مالی پیشرفته** سوخت لازم برای حرکت را فراهم می‌آورد، و **مشارکت مردمی** تضمین می‌کند که این حرکت در مسیر درست و با حمایت کامل جامعه انجام شود. این ترکیب هوشمندانه از رویکرد بالا به پایین و پایین به بالا، چارچوبی تاب‌آور و پایدار برای بازسازی خلق کرده است.
+                </p>
             </div>
-        </section>
-
-        <!-- Strategic Pillars Section -->
-        <section id="pillars" class="my-16">
-            <h2 class="text-3xl font-bold text-center text-gray-900 mb-8">پنج محور راهبردی برای تحول صنعتی</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 rtl-grid">
-                <!-- Pillar Card 1 -->
-                <div class="bg-white p-6 rounded-lg shadow-lg flex flex-col">
-                    <h3 class="text-2xl font-bold text-blue-800 mb-4">۱. ابرخوشه فلزات (فولاد و مس)</h3>
-                    <p class="text-gray-600 mb-4 flex-grow">تکمیل زنجیره ارزش با تمرکز بر محصولات نهایی، بازیافت و بومی‌سازی تجهیزات.</p>
-                    <button data-prompt="یک تحلیل SWOT برای محور راهبردی 'ابرخوشه فلزات (فولاد و مس)' در برنامه صنعتی کرمان ارائه بده. تمرکز بر تکمیل زنجیره ارزش، بازیافت و بومی‌سازی باشد." class="ai-button mt-4 w-full bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-700 transition">✨ تحلیل هوشمند</button>
-                </div>
-                <!-- Pillar Card 2 -->
-                <div class="bg-white p-6 rounded-lg shadow-lg flex flex-col">
-                    <h3 class="text-2xl font-bold text-green-800 mb-4">۲. قطب خودرو و قطعه‌سازی</h3>
-                    <p class="text-gray-600 mb-4 flex-grow">ایجاد مراکز آزمون و مهندسی مشترک برای افزایش کیفیت، صادرات و داخلی‌سازی قطعات پیشرفته.</p>
-                    <button data-prompt="یک تحلیل SWOT برای محور راهبردی 'قطب خودرو و قطعه‌سازی' در برنامه صنعتی کرمان ارائه بده. تمرکز بر مراکز آزمون، مهندسی مشترک و صادرات باشد." class="ai-button mt-4 w-full bg-green-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-green-700 transition">✨ تحلیل هوشمند</button>
-                </div>
-                <!-- Pillar Card 3 -->
-                <div class="bg-white p-6 rounded-lg shadow-lg flex flex-col">
-                    <h3 class="text-2xl font-bold text-orange-800 mb-4">۳. کشاورزی فناورانه (AgriTech)</h3>
-                    <p class="text-gray-600 mb-4 flex-grow">توسعه گلخانه‌های هوشمند و زنجیره سرد برای کاهش مصرف آب و افزایش صادرات محصولات کشاورزی.</p>
-                    <button data-prompt="یک تحلیل SWOT برای محور راهبردی 'کشاورزی فناورانه (AgriTech)' در برنامه صنعتی کرمان ارائه بده. تمرکز بر گلخانه‌های هوشمند، زنجیره سرد و کاهش مصرف آب باشد." class="ai-button mt-4 w-full bg-orange-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-orange-700 transition">✨ تحلیل هوشمند</button>
-                </div>
-                <!-- Pillar Card 4 -->
-                <div class="bg-white p-6 rounded-lg shadow-lg flex flex-col">
-                    <h3 class="text-2xl font-bold text-yellow-800 mb-4">۴. انرژی‌های تجدیدپذیر و تجهیزات</h3>
-                    <p class="text-gray-600 mb-4 flex-grow">ایجاد پارک‌های خورشیدی و بومی‌سازی زنجیره تامین تجهیزات برای تضمین انرژی پایدار صنایع.</p>
-                    <button data-prompt="یک تحلیل SWOT برای محور راهبردی 'انرژی‌های تجدیدپذیر و تجهیزات' در برنامه صنعتی کرمان ارائه بده. تمرکز بر پارک‌های خورشیدی و بومی‌سازی زنجیره تامین باشد." class="ai-button mt-4 w-full bg-yellow-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-yellow-700 transition">✨ تحلیل هوشمند</button>
-                </div>
-                <!-- Pillar Card 5 -->
-                <div class="bg-white p-6 rounded-lg shadow-lg flex flex-col">
-                    <h3 class="text-2xl font-bold text-indigo-800 mb-4">۵. فلزات نوین و های‌تک (تیتانیوم)</h3>
-                    <p class="text-gray-600 mb-4 flex-grow">ایجاد مرکز توسعه و آزمایشگاه تخصصی برای ورود به بازار جهانی آلیاژهای پیشرفته تیتانیوم.</p>
-                    <button data-prompt="یک تحلیل SWOT برای محور راهبردی 'فلزات نوین (تیتانیوم)' در برنامه صنعتی کرمان ارائه بده. تمرکز بر ایجاد مرکز توسعه و ورود به بازارهای جهانی باشد." class="ai-button mt-4 w-full bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-indigo-700 transition">✨ تحلیل هوشمند</button>
-                </div>
-            </div>
-        </section>
-
-        <!-- Timeline Section -->
-        <section id="timeline" class="my-16 bg-white p-8 rounded-xl shadow-lg overflow-x-auto">
-            <h2 class="text-3xl font-bold text-center text-gray-900 mb-8">نقشه راه و زمان‌بندی پروژه‌های کلیدی</h2>
-            <div class="gantt-chart">
-                <div class="gantt-header">
-                    <div class="gantt-cell font-semibold">پروژه</div>
-                    <div class="gantt-cell">1404 Q2</div><div class="gantt-cell">Q3</div><div class="gantt-cell">Q4</div>
-                    <div class="gantt-cell">1405 Q1</div><div class="gantt-cell">Q2</div><div class="gantt-cell">Q3</div><div class="gantt-cell">Q4</div>
-                    <div class="gantt-cell">1406</div><div class="gantt-cell">1407</div><div class="gantt-cell">1408</div>
-                </div>
-                <!-- Projects Data -->
-                 <div class="gantt-row"><div class="gantt-project-name">دفتر پروژه (PMO)</div><div class="gantt-bar" style="--start: 2; --end: 3;"></div></div>
-                 <div class="gantt-row"><div class="gantt-project-name">پنجره واحد سرمایه‌گذاری</div><div class="gantt-bar" style="--start: 2; --end: 4;"></div></div>
-                 <div class="gantt-row"><div class="gantt-project-name">پارک سازه‌های فولادی</div><div class="gantt-bar" style="--start: 3; --end: 8;"></div></div>
-                 <div class="gantt-row"><div class="gantt-project-name">مرکز آزمون قطعات خودرو</div><div class="gantt-bar" style="--start: 3; --end: 8;"></div></div>
-                 <div class="gantt-row"><div class="gantt-project-name">کریدور گلخانه کم‌مصرف</div><div class="gantt-bar" style="--start: 5; --end: 9;"></div></div>
-                 <div class="gantt-row"><div class="gantt-project-name">موج اول نیروگاه خورشیدی</div><div class="gantt-bar" style="--start: 3; --end: 6;"></div></div>
-                 <div class="gantt-row"><div class="gantt-project-name">آزمایشگاه/مرکز توسعه TiO2</div><div class="gantt-bar" style="--start: 5; --end: 7;"></div></div>
-            </div>
-        </section>
-
-        <!-- AI Assistant Section -->
-        <section id="ai-assistant" class="my-16 text-center">
-             <h2 class="text-3xl font-bold text-gray-900 mb-4">✨ از دستیار هوشمند بپرسید</h2>
-             <p class="max-w-2xl mx-auto text-lg text-gray-600 mb-6">
-                سوالات خود را در مورد برنامه راهبردی صنعتی کرمان بپرسید تا یک تحلیل جامع دریافت کنید.
-             </p>
-             <div class="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-lg">
-                <textarea id="user-prompt" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 transition" rows="4" placeholder="مثال: بزرگترین ریسک‌های این برنامه کدامند و چگونه مدیریت می‌شوند؟"></textarea>
-                <button id="ask-ai-button" class="mt-4 w-full bg-gray-800 text-white font-semibold py-3 px-6 rounded-lg hover:bg-gray-900 transition text-lg">ارسال سوال و دریافت تحلیل</button>
-             </div>
         </section>
 
     </main>
-    
-    <!-- AI Modal -->
-    <div id="ai-modal" class="modal fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 z-50 opacity-0 pointer-events-none">
-        <div class="modal-content bg-white rounded-lg shadow-2xl p-6 md:p-8 max-w-3xl w-full text-right transform scale-95">
-            <div class="flex justify-between items-center mb-4 border-b pb-3">
-                <h3 class="text-2xl font-bold text-gray-800">تحلیل هوشمند Gemini</h3>
-                <button id="close-modal" class="text-gray-500 hover:text-red-600 text-3xl">&times;</button>
-            </div>
-            <div id="modal-body" class="prose prose-lg max-w-none text-gray-700 leading-relaxed" style="max-height: 70vh; overflow-y: auto;">
-                <!-- AI response will be injected here -->
-            </div>
+
+    <!-- Footer -->
+    <footer class="bg-slate-800 text-slate-200 mt-16">
+        <div class="container mx-auto px-6 py-8 text-center">
+            <p>&copy; 2025. این تحلیل بر اساس پژوهش‌های مدیریت بحران در اندونزی تهیه شده است.</p>
+            <p class="text-sm text-slate-400 mt-2">طراحی و پیاده‌سازی برای نمایش سه ستون تاب‌آوری.</p>
         </div>
-    </div>
-
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Investment Chart
-            const ctx = document.getElementById('investmentChart').getContext('2d');
-            const investmentChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: ['فولاد', 'مس', 'انرژی خورشیدی', 'خودرو', 'کشاورزی فناورانه', 'تیتانیوم'],
-                    datasets: [{
-                        label: 'سرمایه‌گذاری دولتی (میلیارد تومان)',
-                        data: [270, 90, 40, 120, 100, 35],
-                        backgroundColor: 'rgba(59, 130, 246, 0.8)',
-                        borderColor: 'rgba(59, 130, 246, 1)',
-                        borderWidth: 1
-                    }, {
-                        label: 'سرمایه‌گذاری خصوصی (میلیارد تومان)',
-                        data: [1280, 900, 2810, 600, 700, 200],
-                        backgroundColor: 'rgba(234, 179, 8, 0.8)',
-                        borderColor: 'rgba(234, 179, 8, 1)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    indexAxis: 'y',
-                    scales: {
-                        x: {
-                            stacked: true,
-                            title: { display: true, text: 'حجم سرمایه‌گذاری (میلیارد تومان)' }
-                        },
-                        y: {
-                            stacked: true
-                        }
-                    },
-                    plugins: {
-                        title: {
-                            display: true,
-                            text: 'تفکیک سرمایه‌گذاری دولتی و خصوصی در محورهای اصلی',
-                            font: { size: 18 }
-                        },
-                        tooltip: {
-                            callbacks: {
-                                title: function(tooltipItems) {
-                                    const item = tooltipItems[0];
-                                    let label = item.chart.data.labels[item.dataIndex];
-                                    return Array.isArray(label) ? label.join(' ') : label;
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-
-            // Gemini API Integration
-            const modal = document.getElementById('ai-modal');
-            const modalBody = document.getElementById('modal-body');
-            const closeModalButton = document.getElementById('close-modal');
-
-            function openModal() {
-                modal.classList.remove('opacity-0', 'pointer-events-none');
-                modal.querySelector('.modal-content').classList.remove('scale-95');
-            }
-
-            function closeModal() {
-                modal.classList.add('opacity-0', 'pointer-events-none');
-                modal.querySelector('.modal-content').classList.add('scale-95');
-            }
-
-            document.querySelectorAll('.ai-button').forEach(button => {
-                button.addEventListener('click', function() {
-                    const prompt = this.getAttribute('data-prompt');
-                    modalBody.innerHTML = '<p>در حال پردازش و تحلیل... لطفاً چند لحظه صبر کنید.</p>';
-                    openModal();
-                    callGeminiAPI(prompt, modalBody);
-                });
-            });
-
-            document.getElementById('ask-ai-button').addEventListener('click', function() {
-                const userPrompt = document.getElementById('user-prompt').value;
-                if (userPrompt.trim() === '') {
-                    alert('لطفاً سوال خود را در کادر مربوطه وارد کنید.');
-                    return;
-                }
-                const fullPrompt = `با توجه به برنامه راهبردی سیاست صنعتی استان کرمان، به سوال زیر پاسخ تحلیلی بده: "${userPrompt}"`;
-                modalBody.innerHTML = '<p>در حال پردازش و تحلیل... لطفاً چند لحظه صبر کنید.</p>';
-                openModal();
-                callGeminiAPI(fullPrompt, modalBody);
-            });
-
-            closeModalButton.addEventListener('click', closeModal);
-            modal.addEventListener('click', function(e) {
-                if (e.target === modal) {
-                    closeModal();
-                }
-            });
-
-            async function callGeminiAPI(prompt, targetElement) {
-                // =======================================================================
-                // =======================================================================
-                //
-                //   توجه: کلید API خود را که از Google AI Studio دریافت کرده‌اید،
-                //   در خط زیر و به جای عبارت "PASTE_YOUR_GEMINI_API_KEY_HERE" قرار دهید.
-                //
-                // =======================================================================
-                // =======================================================================
-                const apiKey = "AIzaSyCAhG5v8Zf8HTfkrro_odB9gykHwfyTkX8";
-
-                if (apiKey === "AIzaSyCAhG5v8Zf8HTfkrro_odB9gykHwfyTkX8" || apiKey === "AIzaSyCAhG5v8Zf8HTfkrro_odB9gykHwfyTkX8") {
-                    targetElement.innerHTML = `
-                        <div class="text-red-700 bg-red-100 border-r-4 border-red-500 p-4 rounded-lg">
-                            <h4 class="font-bold text-lg mb-2">خطا در اتصال به سرویس هوشمند</h4>
-                            <p>کلید API برای مدل Gemini پیدا نشد. لطفاً کد را ویرایش کرده و کلید API معتبر خود را در متغیر 'apiKey' قرار دهید تا این قابلیت فعال شود.</p>
-                        </div>`;
-                    return;
-                }
-
-                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
-                
-                let retries = 3;
-                let delay = 1000;
-
-                for (let i = 0; i < retries; i++) {
-                    try {
-                        const response = await fetch(apiUrl, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
-                        });
-
-                        if (!response.ok) {
-                            if (response.status === 429 || response.status >= 500) {
-                                throw new Error(`HTTP error! status: ${response.status}`);
-                            }
-                            const errorData = await response.json();
-                             targetElement.innerHTML = `<p class="text-red-600">خطا: ${errorData.error.message}</p>`;
-                             return;
-                        }
-
-                        const result = await response.json();
-                        const candidate = result.candidates?.[0];
-                        if (candidate && candidate.content?.parts?.[0]?.text) {
-                            let text = candidate.content.parts[0].text;
-                            // Basic markdown to HTML conversion
-                            text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-                            text = text.replace(/\*(.*?)\*/g, '<em>$1</em>');
-                            text = text.replace(/(\n\s*-\s)/g, '<br>• ');
-                            text = text.replace(/\n/g, '<br>');
-                            targetElement.innerHTML = text;
-                        } else {
-                           targetElement.innerHTML = '<p class="text-red-600">پاسخی از سرویس هوشمند دریافت نشد. لطفاً دوباره تلاش کنید.</p>';
-                        }
-                        return;
-
-                    } catch (error) {
-                        console.error(`Attempt ${i + 1} failed:`, error);
-                        if (i < retries - 1) {
-                            await new Promise(res => setTimeout(res, delay));
-                            delay *= 2;
-                        } else {
-                            targetElement.innerHTML = `<p class="text-red-600">خطا در برقراری ارتباط با سرور. لطفاً از اتصال اینترنت خود اطمینان حاصل کرده و مجدداً تلاش کنید.</p>`;
-                        }
-                    }
-                }
-            }
-        });
-    </script>
+    </footer>
 
 </body>
 </html>
+
