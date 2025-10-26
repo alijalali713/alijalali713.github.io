@@ -3,115 +3,523 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>سه ستون تاب‌آوری اندونزی - مدلی برای بازسازی</title>
+    <title>اطلاع‌نگاشت: تحلیل راهبردی اقتصاد تاجیکستان</title>
+    <!-- اتصال به Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700;900&display=swap" rel="stylesheet">
+    <!-- اتصال به Font Awesome CDN برای آیکون‌ها -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- اتصال به Chart.js CDN برای نمودارها -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- اتصال به فونت وزیرمتن برای رندر زیبای فارسی -->
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        /* اعمال فونت وزیرمتن به کل صفحه */
         body {
             font-family: 'Vazirmatn', sans-serif;
-            scroll-behavior: smooth;
+            background-color: #f8fafc; /* bg-gray-50 */
         }
-        .hero-gradient {
-            background: linear-gradient(135deg, #4f46e5 0%, #a21caf 100%);
+        /* کلاس کمکی برای رنگ‌های پرچم */
+        .tajik-red { background-color: #CD2027; }
+        .tajik-white { background-color: #FFFFFF; }
+        .tajik-green { background-color: #006633; }
+        
+        /* برای خوانایی بهتر نمودارها */
+        .chart-container {
+            position: relative;
+            height: 350px;
+            width: 100%;
         }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-700">
+<body class="text-gray-900">
 
-    <!-- Hero Section -->
-    <header class="hero-gradient text-white">
-        <div class="container mx-auto px-6 py-24 text-center">
-            <h1 class="text-4xl md:text-6xl font-black leading-tight mb-4">سه ستون تاب‌آوری اندونزی</h1>
-            <p class="text-lg md:text-xl max-w-3xl mx-auto text-slate-200">تحلیلی عمیق بر مدل موفق بازسازی اقتصادی و اجتماعی پس از بحران‌های بزرگ</p>
-        </div>
-    </header>
+    <div class="max-w-6xl mx-auto p-4 md:p-8">
 
-    <!-- Main Content -->
-    <main class="container mx-auto px-6 py-16">
+        <!-- هدر با رنگ‌های پرچم -->
+        <header class="mb-8">
+            <div class="flex w-full h-2 rounded-t-lg overflow-hidden">
+                <div class="w-1/3 tajik-red"></div>
+                <div class="w-1/3 tajik-white"></div>
+                <div class="w-1/3 tajik-green"></div>
+            </div>
+            <div class="bg-white p-6 rounded-b-lg shadow-lg text-center">
+                <h1 class="text-3xl md:text-4xl font-bold text-gray-800">تحلیل راهبردی اقتصاد تاجیکستان</h1>
+                <p class="text-xl text-gray-600 mt-2">فرصت‌ها، چالش‌ها و روندهای کلیدی (مبتنی بر داده‌های ۲۰۲۴-۲۰۲۳)</p>
+            </div>
+        </header>
 
-        <!-- Introduction -->
-        <section class="text-center max-w-4xl mx-auto mb-20">
-            <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4">چرا مدل اندونزی اهمیت دارد؟</h2>
-            <p class="text-lg leading-relaxed">
-                اندونزی، کشوری واقع در "حلقه آتش" اقیانوس آرام، همواره با تهدید بلایای طبیعی ویرانگر روبروست. این کشور در پاسخ به فجایعی مانند سونامی ۲۰۰۴ آچه، مدلی منسجم برای بازسازی توسعه داده است که بر سه پایه استوار است. این رویکرد نه تنها زیرساخت‌ها را بازسازی می‌کند، بلکه با درس‌آموزی از بحران‌ها، جوامع را تاب‌آورتر از گذشته می‌سازد.
+        <!-- بخش ۱: شاخص‌های کلیدی در یک نگاه -->
+        <section class="mb-8">
+            <h2 class="text-2xl font-semibold text-center mb-6 text-gray-700">۱. نمایه شاخص‌های کلیدی</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+                <!-- کارت رشد GDP -->
+                <div class="bg-white p-5 rounded-lg shadow-md text-center border-b-4 border-green-500">
+                    <i class="fa fa-chart-line fa-3x text-green-600 mb-3"></i>
+                    <div class="text-3xl font-bold">۸.۳٪</div>
+                    <div class="text-gray-600 mt-1">رشد GDP (۲۰۲۳)</div>
+                </div>
+                <!-- کارت تورم -->
+                <div class="bg-white p-5 rounded-lg shadow-md text-center border-b-4 border-yellow-500">
+                    <i class="fa fa-percent fa-3x text-yellow-600 mb-3"></i>
+                    <div class="text-3xl font-bold">۳.۸٪</div>
+                    <div class="text-gray-600 mt-1">نرخ تورم (۲۰۲۳)</div>
+                </div>
+                <!-- کارت فقر -->
+                <div class="bg-white p-5 rounded-lg shadow-md text-center border-b-4 border-blue-500">
+                    <i class="fa fa-arrow-down fa-3x text-blue-600 mb-3"></i>
+                    <div class="text-3xl font-bold">۲۰.۴٪</div>
+                    <div class="text-gray-600 mt-1">نرخ فقر ملی (۲۰۲۳)</div>
+                </div>
+                <!-- کارت بدهی عمومی -->
+                <div class="bg-white p-5 rounded-lg shadow-md text-center border-b-4 border-red-500">
+                    <i class="fa fa-landmark-dome fa-3x text-red-600 mb-3"></i>
+                    <div class="text-3xl font-bold">۳۲.۶٪</div>
+                    <div class="text-gray-600 mt-1">بدهی عمومی به GDP (۲۰۲۲)</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- بخش ۲: نمودارهای اقتصادی کلان (روندها) -->
+        <section class="mb-8">
+            <h2 class="text-2xl font-semibold text-center mb-6 text-gray-700">۲. روندهای کلان اقتصادی (نمودار)</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                
+                <!-- نمودار رشد GDP -->
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <h3 class="text-xl font-semibold mb-4 text-center">روند رشد واقعی GDP (٪)</h3>
+                    <div class="chart-container">
+                        <canvas id="gdpChart"></canvas>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-2 text-center">منبع: بانک جهانی و گزارش اقتصادی ۲۰۲۴</p>
+                </div>
+                
+                <!-- نمودار حواله‌ها -->
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <h3 class="text-xl font-semibold mb-4 text-center">وابستگی به حواله‌ها (درصد از GDP)</h3>
+                    <div class="chart-container">
+                        <canvas id="remittanceChart"></canvas>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-2 text-center">منبع: بانک جهانی (نوسان شدید نشان‌دهنده آسیب‌پذیری است)</p>
+                </div>
+
+                <!-- نمودار کاهش فقر -->
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <h3 class="text-xl font-semibold mb-4 text-center">روند کاهش فقر ملی (٪ جمعیت)</h3>
+                    <div class="chart-container">
+                        <canvas id="povertyChart"></canvas>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-2 text-center">منبع: گزارش ارزیابی فقر ۲۰۲۵ (بانک جهانی)</p>
+                </div>
+
+                <!-- نمودار سرمایه‌گذاری مستقیم خارجی -->
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <h3 class="text-xl font-semibold mb-4 text-center">سرمایه‌گذاری مستقیم خارجی (درصد از GDP)</h3>
+                    <div class="chart-container">
+                        <canvas id="fdiChart"></canvas>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-2 text-center">منبع: گزارش اقتصادی ۲۰۲۴ (نشان‌دهنده افت جذابیت)</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- بخش ۳: شرکای تجاری (نمودارهای دایره‌ای) -->
+        <section class="mb-8">
+            <h2 class="text-2xl font-semibold text-center mb-6 text-gray-700">۳. شرکای تجاری کلیدی (برآورد)</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <h3 class="text-xl font-semibold mb-4 text-center">مقاصد اصلی صادرات</h3>
+                    <div class="chart-container" style="height: 300px;">
+                        <canvas id="exportChart"></canvas>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-2 text-center">صادرات به شدت تحت سلطه طلا (به سوئیس) و فلزات است.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <h3 class="text-xl font-semibold mb-4 text-center">مبادی اصلی واردات</h3>
+                    <div class="chart-container" style="height: 300px;">
+                        <canvas id="importChart"></canvas>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-2 text-center">وابستگی شدید به روسیه (سوخت و انرژی) و چین (کالاهای سرمایه‌ای).</p>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- بخش ۴: استراتژی ملی در برابر واقعیت (جدول) -->
+        <section class="mb-8">
+            <h2 class="text-2xl font-semibold text-center mb-6 text-gray-700">۴. استراتژی ملی توسعه (NDS-2030) در برابر واقعیت‌ها</h2>
+            <div class="bg-white p-6 rounded-lg shadow-lg overflow-x-auto">
+                <table class="w-full min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                هدف راهبردی (NDS-2030)
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                پروژه محوری
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                واقعیت بخشی / چالش کلیدی
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm font-medium text-gray-900">۱. استقلال انرژی</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm text-gray-700">نیروگاه برق آبی راغون</div>
+                            </td>
+                            <td class="px-6 py-4">
+                                <div class="text-sm text-red-700 font-medium">پارادوکس انرژی: کمبود شدید برق در زمستان، بدهی هنگفت پروژه، و ناکارآمدی شرکت دولتی "برق تاجیک".</div>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm font-medium text-gray-900">۲. خروج از بن‌بست ارتباطی</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm text-gray-700">کریدورهای حمل و نقل</div>
+                            </td>
+                            <td class="px-6 py-4">
+                                <div class="text-sm text-gray-700">پیشرفت در جاده‌ها (وابسته به وام چین) و بهبود روابط با ازبکستان، اما هزینه‌های لجستیک همچنان بالاست.</div>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm font-medium text-gray-900">۳. تضمین امنیت غذایی</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm text-gray-700">توسعه کشاورزی</div>
+                            </td>
+                            <td class="px-6 py-4">
+                                <div class="text-sm text-red-700 font-medium">بهره‌وری پایین؛ وابستگی به کشت دستوری پنبه (۳۰٪ اراضی آبی)؛ فرسودگی سیستم آبیاری و ضعف حقوق زمین.</div>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm font-medium text-gray-900">۴. (هدف ضمنی) توسعه بخش خصوصی</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm text-gray-700">بهبود محیط کسب‌وکار</div>
+                            </td>
+                            <td class="px-6 py-4">
+                                <div class="text-sm text-red-700 font-medium">سلطه شرکت‌های دولتی (SOEs)، فساد، رقابت نابرابر و دسترسی تقریباً صفر به اعتبار مالی بلندمدت.</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- بخش ۵: فرصت‌ها و ریسک‌ها (SWOT) -->
+        <section class="mb-8">
+            <h2 class="text-2xl font-semibold text-center mb-6 text-gray-700">۵. چشم‌انداز راهبردی: فرصت‌ها در برابر ریسک‌ها</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                <!-- فرصت‌های کلیدی -->
+                <div class="bg-white border-t-8 border-green-500 p-6 rounded-lg shadow-lg">
+                    <h3 class="text-2xl font-semibold text-green-800 mb-4 flex items-center">
+                        <i class="fa fa-check-circle fa-fw mr-3"></i>
+                        فرصت‌های کلیدی
+                    </h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <i class="fa fa-bolt text-green-600 mt-1 ml-3 flex-shrink-0"></i>
+                            <div>
+                                <h4 class="font-semibold">انرژی پاک و صادرات (روگون / CASA-1000)</h4>
+                                <p class="text-sm text-gray-700">پتانسیل تبدیل شدن به قطب انرژی پاک منطقه و صادرات برق به جنوب آسیا.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa fa-seedling text-green-600 mt-1 ml-3 flex-shrink-0"></i>
+                            <div>
+                                <h4 class="font-semibold">کشاورزی با ارزش افزوده بالا</h4>
+                                <p class="text-sm text-gray-700">فرصت در صنایع تبدیلی (Agro-processing) و صادرات میوه، آجیل و سبزیجات.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa fa-gem text-green-600 mt-1 ml-3 flex-shrink-0"></i>
+                            <div>
+                                <h4 class="font-semibold">منابع معدنی</h4>
+                                <p class="text-sm text-gray-700">ذخایر قابل توجه طلا، نقره و به ویژه آنتیموان.</p>
+                            </div>
+                        </li>
+                         <li class="flex items-start">
+                            <i class="fa fa-road text-green-600 mt-1 ml-3 flex-shrink-0"></i>
+                            <div>
+                                <h4 class="font-semibold">ادغام منطقه‌ای و ترانزیت</h4>
+                                <p class="text-sm text-gray-700">بهبود روابط با ازبکستان و نقش‌آفرینی در ابتکار "کمربند و راه" (BRI) چین.</p>
+                            </div>
+                        </li>
+                         <li class="flex items-start">
+                            <i class="fa fa-users text-green-600 mt-1 ml-3 flex-shrink-0"></i>
+                            <div>
+                                <h4 class="font-semibold">طبقه متوسط در حال رشد</h4>
+                                <p class="text-sm text-gray-700">افزایش جمعیت طبقه متوسط از ۲۴٪ (۲۰۲۱) به ۳۳٪ (۲۰۲۴) و ایجاد بازار مصرف جدید.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- ریسک‌های اصلی -->
+                <div class="bg-white border-t-8 border-red-500 p-6 rounded-lg shadow-lg">
+                    <h3 class="text-2xl font-semibold text-red-800 mb-4 flex items-center">
+                        <i class="fa fa-exclamation-triangle fa-fw mr-3"></i>
+                        ریسک‌های حیاتی
+                    </h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <i class="fa fa-gavel text-red-600 mt-1 ml-3 flex-shrink-0"></i>
+                            <div>
+                                <h4 class="font-semibold">حاکمیت ضعیف و فساد (ریسک اصلی)</h4>
+                                <p class="text-sm text-gray-700">بزرگترین مانع سرمایه‌گذاری؛ اجرای ضعیف قراردادها و عدم شفافیت سیستماتیک.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa fa-sync-alt text-red-600 mt-1 ml-3 flex-shrink-0"></i>
+                            <div>
+                                <h4 class="font-semibold">آسیب‌پذیری اقتصاد کلان</h4>
+                                <p class="text-sm text-gray-700">وابستگی شدید به حواله‌های ارزی از روسیه، بخش بانکی ضعیف و بدهی‌های پنهان شرکت‌های دولتی.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa fa-user-graduate text-red-600 mt-1 ml-3 flex-shrink-0"></i>
+                            <div>
+                                <h4 class="font-semibold">کمبود سرمایه انسانی</h4>
+                                <p class="text-sm text-gray-700">شکاف مهارتی عمیق؛ **۴۱٪ جوانان** نه شاغل هستند و نه در حال تحصیل (NEET).</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa fa-snowflake text-red-600 mt-1 ml-3 flex-shrink-0"></i>
+                            <div>
+                                <h4 class="font-semibold">ریسک شدید تغییرات اقلیمی</h4>
+                                <p class="text-sm text-gray-700">وابستگی کامل به برق آبی و کشاورزی در بحبوحه ذوب سریع یخچال‌های طبیعی و افزایش بلایای طبیعی.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- جمع‌بندی راهبردی -->
+        <footer class="bg-gray-800 text-white p-8 rounded-lg shadow-lg">
+            <div class="flex items-center mb-4">
+                <i class="fa fa-lightbulb fa-2x text-yellow-400 ml-4"></i>
+                <h2 class="text-2xl font-semibold">جمع‌بندی راهبردی برای هیئت‌های اقتصادی</h2>
+            </div>
+            <p class="mb-4">
+                تاجیکستان یک **"اقتصاد دوگانه"** را به نمایش می‌گذارد: از یک سو، رشد اقتصادی قوی و آمارهای کلان باثبات؛ از سوی دیگر، یک مدل رشد شکننده مبتنی بر حواله و یک محیط کسب‌وکار غیرشفاف که تحت سلطه نخبگان و شرکت‌های دولتی است.
             </p>
-        </section>
+            <p class="font-semibold">موفقیت در این بازار نیازمند استراتژی هدفمند است:</p>
+            <ul class="space-y-2 list-disc list-inside mt-3">
+                <li>**کاهش ریسک حاکمیتی:** استفاده از ابزارهایی مانند **داوری بین‌المللی** در قراردادها یک ضرورت است، نه یک گزینه.</li>
+                <li>**ورود هدفمند:** یا هدف‌گذاری بازار مصرفی (وابسته به حواله) یا ورود به بخش‌های راهبردی (انرژی، معدن) با پذیرش ریسک سیاسی بالا و افق زمانی بلندمدت.</li>
+                <li>**مدیریت ریسک پایداری:** برنامه‌ریزی برای شکاف مهارتی (آموزش نیروی کار محلی) و چالش‌های اقلیمی (کمبود آب و انرژی) برای بقای بلندمدت حیاتی است.</li>
+            </ul>
+        </footer>
 
-        <!-- Pillars Diagram Section -->
-        <section id="pillars" class="mb-16">
-            <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-12 text-center">نمودار هم‌افزایی سه پایه تاب‌آوری</h2>
-            
-            <!-- Diagram for Desktop -->
-            <div class="hidden md:flex justify-center items-center mb-12">
-                <div class="relative w-[32rem] h-[32rem]">
-                    <!-- Central Goal Text -->
-                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 text-center bg-white/70 backdrop-blur-md p-6 rounded-full shadow-xl">
-                        <h3 class="text-2xl font-black text-slate-900">تاب‌آوری پایدار</h3>
-                        <p class="text-sm text-slate-700">(نتیجه هم‌افزایی)</p>
-                    </div>
+    </div>
 
-                    <!-- Pillar 1: Central Government -->
-                    <div class="absolute top-0 left-4 w-64 h-64 rounded-full bg-violet-500/30 backdrop-blur-sm flex items-center justify-center text-center p-4 z-10">
-                        <h4 class="font-bold text-xl text-violet-900">اقتدار دولت مرکزی</h4>
-                    </div>
+    <!-- اسکریپت‌های مربوط به نمودارها -->
+    <script>
+        window.addEventListener('load', () => {
+            // تنظیمات عمومی فونت برای تمام نمودارها
+            Chart.defaults.font.family = 'Vazirmatn';
+            Chart.defaults.font.size = 12;
+            Chart.defaults.color = '#374151'; // text-gray-700
+            Chart.defaults.borderColor = '#e5e7eb'; // border-gray-200
 
-                    <!-- Pillar 2: Finance -->
-                    <div class="absolute top-0 right-4 w-64 h-64 rounded-full bg-orange-500/30 backdrop-blur-sm flex items-center justify-center text-center p-4 z-10">
-                         <h4 class="font-bold text-xl text-orange-900">تأمین مالی پیشرفته</h4>
-                    </div>
+            // ۱. نمودار رشد GDP
+            const gdpCtx = document.getElementById('gdpChart').getContext('2d');
+            new Chart(gdpCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['۲۰۱۸', '۲۰۱۹', '۲۰۲۰ (کووید)', '۲۰۲۱', '۲۰۲۲', '۲۰۲۳'],
+                    datasets: [{
+                        label: 'رشد واقعی GDP (٪)',
+                        data: [7.6, 7.5, 4.5, 9.2, 8.0, 8.3],
+                        backgroundColor: 'rgba(22, 163, 74, 0.6)', // green-600
+                        borderColor: 'rgba(21, 128, 61, 1)', // green-700
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) { return value + '%' }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) { return context.parsed.y + '%' }
+                            }
+                        }
+                    }
+                }
+            });
 
-                    <!-- Pillar 3: Public Participation -->
-                    <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-64 h-64 rounded-full bg-teal-500/30 backdrop-blur-sm flex items-center justify-center text-center p-4 z-10">
-                        <h4 class="font-bold text-xl text-teal-900">مشارکت همگانی</h4>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Detailed Explanations -->
-            <div class="space-y-8">
-                 <div class="bg-white p-8 rounded-lg shadow-lg border-r-8 border-violet-500">
-                    <h3 class="text-2xl font-bold text-slate-800 mb-4">پایه اول: اقتدار دولت مرکزی (فرماندهی واحد)</h3>
-                    <p class="leading-loose text-slate-600">
-                        تجربه سونامی ۲۰۰۴ نشان داد که یک پاسخ ناهماهنگ و پراکنده منجر به اتلاف منابع و تأخیر در امدادرسانی می‌شود. در پاسخ، دولت اندونزی **آژانس ملی مدیریت بلایا (BNPB)** را تأسیس کرد. این نهاد قدرتمند، که مستقیماً به رئیس جمهور گزارش می‌دهد، به عنوان فرماندهی مرکزی عمل می‌کند. وظیفه اصلی آن، هماهنگ‌سازی تمام بازیگران، از وزارتخانه‌های مختلف و ارتش گرفته تا سازمان‌های غیردولتی ملی و بین‌المللی است. این ساختار متمرکز تضمین می‌کند که یک استراتژی ملی واحد وجود داشته باشد، استانداردها رعایت شوند و منابع به صورت بهینه و بر اساس اولویت‌های واقعی تخصیص یابند. این اقتدار مرکزی از هرج‌ومرج جلوگیری کرده و یک چارچوب پاسخگویی شفاف ایجاد می‌کند.
-                    </p>
-                </div>
-                 <div class="bg-white p-8 rounded-lg shadow-lg border-r-8 border-orange-500">
-                    <h3 class="text-2xl font-bold text-slate-800 mb-4">پایه دوم: تأمین مالی پیشرفته (آمادگی پیشگیرانه)</h3>
-                    <p class="leading-loose text-slate-600">
-                        اتکا به بودجه‌های اضطراری پس از وقوع بحران، فرآیند بازسازی را به شدت کند می‌کند. اندونزی با پیاده‌سازی استراتژی **تأمین مالی و بیمه ریسک بلایا (DRFI)**، این پارادایم را تغییر داده است. این استراتژی یک مدل چندلایه است که منابع مالی را *قبل* از وقوع فاجعه آماده می‌کند. لایه اصلی آن، **صندوق انباشت بحران (PFB)** است که مانند یک حساب پس‌انداز ملی برای بلایا عمل می‌کند. این صندوق با منابعی از بودجه دولتی و کمک‌های توسعه‌ای تغذیه می‌شود. لایه‌های بعدی شامل ابزارهای انتقال ریسک مانند بیمه‌های فاجعه و اوراق بهادار بلایا است. این رویکرد پیشگیرانه به دولت اجازه می‌دهد تا در ساعات اولیه پس از بحران، بدون انتظار برای کمک‌های خارجی، منابع مالی لازم را به مناطق آسیب‌دیده تزریق کند.
-                    </p>
-                </div>
-                 <div class="bg-white p-8 rounded-lg shadow-lg border-r-8 border-teal-500">
-                    <h3 class="text-2xl font-bold text-slate-800 mb-4">پایه سوم: مشارکت همگانی (مالکیت جامعه‌محور)</h3>
-                    <p class="leading-loose text-slate-600">
-                        پایدارترین بازسازی آن است که توسط خود مردم پذیرفته و اجرا شود. مدل اندونزی، به ویژه در بازسازی عظیم استان آچه، بر رویکرد **توسعه جامعه‌محور (CDD)** تأکید دارد. به جای اجرای طرح‌های از پیش تعیین شده توسط دولت مرکزی، به جوامع محلی و روستاها کمک‌های مالی مستقیم (Block Grants) داده شد و قدرت تصمیم‌گیری در مورد نحوه بازسازی خانه‌ها، مدارس و زیرساخت‌های محلی به خودشان واگذار گردید. این فرآیند، با وجود پیچیدگی، باعث ایجاد حس مالکیت و مسئولیت در میان مردم شد. نتیجه آن، ساخت‌وسازهایی بود که با فرهنگ و نیازهای واقعی مردم همخوانی داشت و در بلندمدت توسط خود جامعه نگهداری و محافظت می‌شد.
-                    </p>
-                </div>
-            </div>
-        </section>
+            // ۲. نمودار حواله‌ها
+            const remittanceCtx = document.getElementById('remittanceChart').getContext('2d');
+            new Chart(remittanceCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['۲۰۱۳', '۲۰۱۵ (رکود روسیه)', '۲۰۲۰ (کووید)', '۲۰۲۲ (جهش)'],
+                    datasets: [{
+                        label: 'حواله‌ها به عنوان درصد GDP',
+                        data: [49.6, 28.7, 26.6, 51.5], // داده‌های بانک جهانی
+                        backgroundColor: 'rgba(59, 130, 246, 0.6)', // blue-500
+                        borderColor: 'rgba(37, 99, 235, 1)', // blue-600
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) { return value + '%' }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) { return context.parsed.y + '%' }
+                            }
+                        }
+                    }
+                }
+            });
 
-        <!-- Synthesis Section -->
-        <section class="mt-20 bg-slate-100 rounded-lg p-8 md:p-12">
-            <div class="text-center max-w-4xl mx-auto">
-                <h2 class="text-3xl font-bold text-slate-900 mb-6">هم‌افزایی پایه‌ها: رمز موفقیت</h2>
-                <p class="text-lg leading-relaxed">
-                    قدرت واقعی مدل اندونزی در انزوای این سه پایه نیست، بلکه در **تعامل و هم‌افزایی** هوشمندانه آن‌هاست. **اقتدار مرکزی** جهت‌گیری استراتژیک را تعیین می‌کند، **سیستم مالی پیشرفته** سوخت لازم برای حرکت را فراهم می‌آورد، و **مشارکت مردمی** تضمین می‌کند که این حرکت در مسیر درست و با حمایت کامل جامعه انجام شود. این ترکیب هوشمندانه از رویکرد بالا به پایین و پایین به بالا، چارچوبی تاب‌آور و پایدار برای بازسازی خلق کرده است.
-                </p>
-            </div>
-        </section>
+            // ۳. نمودار کاهش فقر
+            const povertyCtx = document.getElementById('povertyChart').getContext('2d');
+            new Chart(povertyCtx, {
+                type: 'line',
+                data: {
+                    labels: ['۱۹۹۹', '۲۰۰۹', '۲۰۱۵', '۲۰۲۳'],
+                    datasets: [{
+                        label: 'نرخ فقر ملی (٪)',
+                        data: [83, 50, 31, 20.4],
+                        backgroundColor: 'rgba(239, 68, 68, 0.1)', // red-500
+                        borderColor: 'rgba(220, 38, 38, 1)', // red-600
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            ticks: {
+                                callback: function(value) { return value + '%' }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) { return context.parsed.y + '%' }
+                            }
+                        }
+                    }
+                }
+            });
 
-    </main>
+            // ۴. نمودار سرمایه‌گذاری مستقیم خارجی
+            const fdiCtx = document.getElementById('fdiChart').getContext('2d');
+            new Chart(fdiCtx, {
+                type: 'line',
+                data: {
+                    labels: ['۲۰۱۸', '۲۰۱۹', '۲۰۲۰', '۲۰۲۱', '۲۰۲۲', '۲۰۲۳'],
+                    datasets: [{
+                        label: 'FDI به عنوان درصد GDP',
+                        data: [1.6, 2.0, 1.0, 1.8, 1.5, 0.8],
+                        backgroundColor: 'rgba(245, 158, 11, 0.1)', // yellow-500
+                        borderColor: 'rgba(217, 119, 6, 1)', // yellow-600
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) { return value + '%' }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) { return context.parsed.y + '%' }
+                            }
+                        }
+                    }
+                }
+            });
 
-    <!-- Footer -->
-    <footer class="bg-slate-800 text-slate-200 mt-16">
-        <div class="container mx-auto px-6 py-8 text-center">
-            <p>&copy; 2025. این تحلیل بر اساس پژوهش‌های مدیریت بحران در اندونزی تهیه شده است.</p>
-            <p class="text-sm text-slate-400 mt-2">طراحی و پیاده‌سازی برای نمایش سه ستون تاب‌آوری.</p>
-        </div>
-    </footer>
+            // ۵. نمودار صادرات
+            const exportCtx = document.getElementById('exportChart').getContext('2d');
+            new Chart(exportCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['سوئیس (عمدتاً طلا)', 'قزاقستان', 'ترکیه', 'ازبکستان', 'سایر'],
+                    datasets: [{
+                        data: [40, 15, 12, 10, 23], // داده‌های تخمینی بر اساس گزارش‌ها
+                        backgroundColor: ['#10B981', '#3B82F6', '#F59E0B', '#6366F1', '#9CA3AF'],
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', align: 'center' }
+                    }
+                }
+            });
+
+            // ۶. نمودار واردات
+            const importCtx = document.getElementById('importChart').getContext('2d');
+            new Chart(importCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['روسیه', 'چین', 'قزاقستان', 'سایر'],
+                    datasets: [{
+                        data: [35, 25, 15, 25], // داده‌های تخمینی
+                        backgroundColor: ['#EF4444', '#14B8A6', '#3B82F6', '#9CA3AF'],
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', align: 'center' }
+                    }
+                }
+            });
+
+        });
+    </script>
 
 </body>
 </html>
-
