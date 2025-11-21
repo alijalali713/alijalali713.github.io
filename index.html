@@ -3,220 +3,249 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>اطلاع‌نگاشت: درس چهارم </title>
-    <!-- بارگذاری Tailwind CSS -->
+    <title>تحلیل شکست انرژی خورشیدی در ایران | دیدگاه مشتاق خان</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- بارگذاری کتابخانه آیکن Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100..900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Vazirmatn', 'sans-serif'],
+                    },
+                    colors: {
+                        solar: {
+                            100: '#fff7ed',
+                            400: '#fbbf24',
+                            500: '#f59e0b',
+                            600: '#d97706',
+                            800: '#92400e',
+                        },
+                        failure: '#ef4444',
+                        success: '#22c55e'
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        /* تنظیم فونت مناسب برای زبان فارسی */
-        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&display=swap');
-        
         body {
-            font-family: 'Vazirmatn', 'Inter', sans-serif;
-            background-color: #fdfaf6; /* رنگ پس‌زمینه کرم */
+            background-color: #f3f4f6;
         }
-
-        .card {
-            background-color: #ffffff;
-            border-radius: 1rem; /* 16px */
-            border: 1px solid #f0eada; /* طلایی بسیار روشن */
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.04);
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
-
-        .card:hover {
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-            transform: translateY(-5px) scale(1.01);
+        .gradient-text {
+            background: linear-gradient(to left, #d97706, #f59e0b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-
-        .arabic-text {
-            font-size: 2rem; /* 32px */
-            line-height: 2.8;
-            color: #004d40; /* سبزآبی بسیار تیره */
-            font-family: 'Times New Roman', Times, serif; /* فونت سنتی‌تر برای عربی */
-            font-weight: 600;
+        .animate-pulse-slow {
+            animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
         }
-
-        .translation-text {
-            font-size: 1.15rem; /* 18.4px */
-            color: #4a4a4a;
-            font-style: italic;
-            font-weight: 400;
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: .7; }
         }
-
-        .section-title {
-            font-size: 1.75rem; /* 28px */
-            font-weight: 700;
-            color: #004d40; /* سبزآبی بسیار تیره */
-            margin-bottom: 1.5rem; /* 24px */
-            text-align: center;
-            position: relative;
-            padding-bottom: 12px;
-        }
-
-        /* خط تزئینی زیر عنوان بخش */
-        .section-title::after {
-            content: '';
-            display: block;
-            width: 80px;
-            height: 4px;
-            background-color: #d4af37; /* رنگ طلایی */
-            border-radius: 2px;
-            position: absolute;
-            bottom: 0;
-            right: 50%;
-            transform: translateX(50%);
-        }
-
-        .icon-box {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            background-color: #e0f2f1; /* سبزآبی بسیار روشن */
-            color: #004d40; /* سبزآبی بسیار تیره */
-            font-size: 2.25rem; /* 36px */
-            margin-bottom: 1rem;
-        }
-
-        /* استایل جدید برای واژگان */
-        .vocab-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 1.1rem; /* 18px */
-            padding: 0.75rem 1rem; /* 12px 16px */
-            background-color: #f8f6f2;
-            border-right: 5px solid #d4af37; /* طلایی */
-            border-radius: 8px;
-            transition: all 0.2s ease;
-        }
-        .vocab-item:hover {
-            background-color: #f3f0e9;
-            transform: translateX(-4px);
-        }
-
     </style>
 </head>
-<body class="bg-gray-50">
+<body class="text-gray-800 font-sans pb-12">
 
-    <div class="container mx-auto max-w-4xl p-4 sm:p-8">
-        
-        <!-- هدر -->
-        <header class="text-center mb-16">
-            <h1 class="text-5xl font-extrabold" style="color: #004d40;">درس چهارم</h1>
-            <p class="text-2xl font-light text-gray-600 mt-3">دعای حضرت سلیمان (ع) - سوره نمل، آیه ۱۹</p>
-        </header>
+    <!-- Header -->
+    <header class="bg-gray-900 text-white py-8 px-4 shadow-lg border-b-4 border-solar-500 relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
+            <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" stroke-width="1"/>
+                </pattern>
+                <rect width="100%" height="100%" fill="url(#grid)" />
+            </svg>
+        </div>
+        <div class="max-w-5xl mx-auto text-center relative z-10">
+            <div class="inline-block bg-solar-500 text-gray-900 text-xs font-bold px-3 py-1 rounded-full mb-3">گزارش وضعیت نوامبر ۲۰۲۵</div>
+            <h1 class="text-3xl md:text-5xl font-black mb-2">چرا خورشید در ایران طلوع نکرد؟</h1>
+            <p class="text-gray-300 text-lg">تحلیل نهادی توسعه انرژی خورشیدی از دیدگاه پروفسور مشتاق خان</p>
+        </div>
+    </header>
 
-        <!-- بخش اصلی: آیه و ترجمه -->
-        <main>
-            <section class="card p-6 md:p-10 mb-12 bg-gradient-to-br from-white to-gray-50">
-                <h2 class="section-title">آیه اصلی (نمل: ۱۹)</h2>
-                <!--  -->
-                <p class="arabic-text text-center leading-loose">
-                    رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ الَّتِي أَنْعَمْتَ عَلَيَّ وَعَلَىٰ وَالِدَيَّ
-                    <br>
-                    وَأَنْ أَعْمَلَ صَالِحًا تَرْضَاهُ
-                    <br>
-                    وَأَدْخِلْنِي بِرَحْمَتِكَ فِي عِبَادِكَ الصَّالِحِينَ
-                </p>
-                <hr class="my-8 border-gray-200">
-                <p class="translation-text text-center text-gray-700">
-                    «پروردگارا! به من الهام کن که شکر نعمتی را که بر من و پدر و مادرم ارزانی داشتی به جا آورم،
-                    و اینکه کار شایسته‌ای انجام دهم که تو از آن خشنود شوی،
-                    و مرا به رحمتت در میان بندگان شایسته‌ات وارد کن.»
-                </p>
-            </section>
+    <main class="max-w-5xl mx-auto px-4 -mt-6 space-y-8 relative z-10">
 
-            <!-- بخش نکات کلیدی -->
-            <section class="mb-12">
-                <h2 class="section-title">نکات کلیدی آیه</h2>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <!-- نکته 1: شکر نعمت -->
-                    <div class="card p-6 text-center">
-                        <div class="icon-box">
-                            <i class="fas fa-praying-hands"></i>
-                        </div>
-                        <h3 class="text-xl font-semibold text-gray-800 mb-2">شکر نعمت</h3>
-                        <p class="text-gray-600">
-                            سپاسگزاری برای تمام نعمت‌ها، به‌ویژه نعمت سلامتی، عقل، زبان و وجود پدر و مادر.
-                        </p>
-                    </div>
-                    <!-- نکته 2: عمل صالح -->
-                    <div class="card p-6 text-center">
-                        <div class="icon-box">
-                            <i class="fas fa-heart"></i>
-                        </div>
-                        <h3 class="text-xl font-semibold text-gray-800 mb-2">عمل صالح</h3>
-                        <p class="text-gray-600">
-                            انجام کارهایی که مورد رضایت خداوند باشد، شرط ورود به جمع بندگان صالح است.
-                        </p>
-                    </div>
-                    <!-- نکته 3: دعا برای والدین -->
-                    <div class="card p-6 text-center">
-                        <div class="icon-box">
-                            <i class="fas fa-users"></i>
-                        </div>
-                        <h3 class="text-xl font-semibold text-gray-800 mb-2">دعا برای والدین</h3>
-                        <p class="text-gray-600">
-                            اهمیت دعا کردن برای پدر و مادر، همان‌گونه که در آیه و شعر درس به آن اشاره شده است.
-                        </p>
-                    </div>
+        <!-- Stats Section: The Gap -->
+        <section class="glass-panel rounded-2xl p-6 md:p-8 border-t-4 border-failure">
+            <h2 class="text-xl font-bold mb-6 flex items-center gap-2">
+                <span class="w-2 h-8 bg-failure rounded-full"></span>
+                شکاف عظیم: وعده در برابر واقعیت
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <!-- Goal -->
+                <div class="text-center p-6 bg-gray-50 rounded-xl border border-dashed border-gray-300 opacity-60">
+                    <p class="text-gray-500 font-medium mb-2">هدف‌گذاری دولت‌ها (تا ۱۴۰۴)</p>
+                    <div class="text-5xl font-black text-gray-400">10,000</div>
+                    <div class="text-sm text-gray-400 mt-1">مگاوات</div>
+                    <div class="mt-4 text-xs text-gray-400 bg-gray-200 inline-block px-2 py-1 rounded">وعده روحانی، رئیسی و پزشکیان</div>
                 </div>
-            </section>
 
-            <!-- بخش واژگان و پیام قرآنی -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <!-- واژگان کلیدی -->
-                <section>
-                    <h2 class="section-title">واژگان کلیدی</h2>
-                    <div class="card p-6 space-y-4">
-                        <div class="vocab-item">
-                            <span class="font-medium" style="color: #004d40;">أَنْ أَشْكُرَ</span>
-                            <span class="text-gray-700">که شکر کنم</span>
-                        </div>
-                        <div class="vocab-item">
-                            <span class="font-medium" style="color: #004d40;">أَنْعَمْتَ</span>
-                            <span class="text-gray-700">نعمت دادی</span>
-                        </div>
-                        <div class="vocab-item">
-                            <span class="font-medium" style="color: #004d40;">وَعَلَىٰ وَالِدَيَّ</span>
-                            <span class="text-gray-700">و بر پدر و مادرم</span>
-                        </div>
-                        <div class="vocab-item">
-                            <span class="font-medium" style="color: #004d40;">أَنْ أَعْمَلَ صَالِحًا</span>
-                            <span class="text-gray-700">که کار شایسته انجام دهم</span>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- پیام قرآنی -->
-                <section>
-                    <h2 class="section-title">پیام قرآنی</h2>
-                    <div class="card p-6 h-full flex flex-col justify-center items-center text-center" style="background-color: #e0f2f1;">
-                        <!--  -->
-                        <p class="text-3xl font-bold" style="color: #004d40;">
-                            هٰذَا مِنْ فَضْلِ رَبِّي
-                        </p>
-                        <hr class="w-1/3 my-5" style="border-color: #d4af37;">
-                        <p class="text-xl text-gray-700">
-                            «این از فضل (و بخشش) پروردگار من است.»
-                        </p>
-                    </div>
-                </section>
+                <!-- Reality -->
+                <div class="text-center p-6 bg-white rounded-xl shadow-lg border border-failure transform scale-105 relative overflow-hidden">
+                     <div class="absolute -right-8 top-4 bg-failure text-white text-xs font-bold px-8 py-1 transform rotate-45">واقعیت</div>
+                    <p class="text-gray-600 font-medium mb-2">ظرفیت نصب شده واقعی</p>
+                    <div class="text-6xl font-black text-failure">~1,200</div>
+                    <div class="text-sm text-gray-500 mt-1">مگاوات</div>
+                    <div class="mt-4 text-sm font-bold text-failure">تحقق کمتر از ۱۲٪ برنامه!</div>
+                </div>
             </div>
 
-        </main>
+            <!-- Progress Bar Visual -->
+            <div class="mt-8 bg-gray-200 rounded-full h-6 relative w-full overflow-hidden">
+                <div class="absolute top-0 right-0 h-full bg-failure flex items-center justify-center text-[10px] text-white font-bold" style="width: 12%">۱۲٪</div>
+                <div class="absolute top-0 right-0 h-full w-full flex items-center justify-end pr-4 text-xs text-gray-400 font-mono">هدف: ۱۰۰٪ (۱۰،۰۰۰ مگاوات)</div>
+            </div>
+        </section>
 
-        <!-- فوتر -->
-        <footer class="text-center text-gray-500 mt-16 border-t pt-8" style="border-color: #f0eada;">
-            <p>برگرفته از محتوای درس چهارم (جلسه اول)</p>
+        <!-- The "Rent" Section -->
+        <section class="glass-panel rounded-2xl p-6 md:p-8">
+            <h2 class="text-xl font-bold mb-6 flex items-center gap-2">
+                <span class="w-2 h-8 bg-solar-500 rounded-full"></span>
+                منابع تخصیص داده شده (توزیع رانت)
+            </h2>
+            <p class="text-gray-600 mb-6 text-justify">دولت منابع مالی و امتیازات عظیمی را توزیع کرد، اما چرا نتیجه نداد؟</p>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="bg-solar-100 p-4 rounded-lg text-center border border-solar-200">
+                    <div class="text-3xl mb-2">💰</div>
+                    <h3 class="font-bold text-solar-800 text-sm">خرید تضمینی بالا</h3>
+                    <p class="text-xs text-solar-600 mt-1">تا ۳۰۰۰ تومان/کیلووات</p>
+                </div>
+                <div class="bg-solar-100 p-4 rounded-lg text-center border border-solar-200">
+                    <div class="text-3xl mb-2">🏞️</div>
+                    <h3 class="font-bold text-solar-800 text-sm">زمین رایگان/ارزان</h3>
+                    <p class="text-xs text-solar-600 mt-1">در کرمان، یزد و فارس</p>
+                </div>
+                <div class="bg-solar-100 p-4 rounded-lg text-center border border-solar-200">
+                    <div class="text-3xl mb-2">🏦</div>
+                    <h3 class="font-bold text-solar-800 text-sm">وام کم‌بهره</h3>
+                    <p class="text-xs text-solar-600 mt-1">صندوق نوآوری و ساتبا</p>
+                </div>
+                <div class="bg-solar-100 p-4 rounded-lg text-center border border-solar-200">
+                    <div class="text-3xl mb-2">📉</div>
+                    <h3 class="font-bold text-solar-800 text-sm">معافیت مالیاتی</h3>
+                    <p class="text-xs text-solar-600 mt-1">طولانی مدت و گمرکی</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mushtaq Khan's Analysis (The Core) -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Card 1 -->
+            <div class="bg-white rounded-2xl p-6 shadow-md border-t-4 border-gray-800">
+                <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mb-4 text-2xl">🚫</div>
+                <h3 class="font-bold text-lg mb-3">رانت بدون شرط عملکردی</h3>
+                <p class="text-sm text-gray-600 leading-relaxed">
+                    پول و زمین داده می‌شود حتی اگر پنل نصب نشود! دولت توانایی یا اراده‌ای برای نظارت بر <strong>تولید واقعی برق</strong> ندارد و رانت‌ها بر اساس پیشرفت فیزیکی واقعی پرداخت نمی‌شوند.
+                </p>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="bg-white rounded-2xl p-6 shadow-md border-t-4 border-gray-800">
+                <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mb-4 text-2xl">🤝</div>
+                <h3 class="font-bold text-lg mb-3">تسخیر رانت توسط ذی‌نفوذان</h3>
+                <p class="text-sm text-gray-600 leading-relaxed">
+                    مجوزها و زمین‌ها به جای کارآمدترین شرکت‌ها، به افراد دارای <strong>دسترسی سیاسی</strong> (شرکت‌های خصولتی یا فرزندان مقامات) می‌رسد که توان فنی ندارند.
+                </p>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="bg-white rounded-2xl p-6 shadow-md border-t-4 border-gray-800">
+                <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mb-4 text-2xl">🧩</div>
+                <h3 class="font-bold text-lg mb-3">پراکندگی قدرت اجرایی</h3>
+                <p class="text-sm text-gray-600 leading-relaxed">
+                    ساتبا مجوز می‌دهد، بانک پول می‌دهد، استانداری زمین می‌دهد. هیچ نهادی <strong>مسئولیت نهایی</strong> را ندارد و دولت نمی‌تواند رانت را از پروژه‌های شکست‌خورده پس بگیرد.
+                </p>
+            </div>
+        </section>
+
+        <!-- Global Comparison -->
+        <section class="glass-panel rounded-2xl p-6 md:p-8">
+            <h2 class="text-xl font-bold mb-6 flex items-center gap-2">
+                <span class="w-2 h-8 bg-blue-600 rounded-full"></span>
+                ایران در مقایسه با جهان (نوامبر ۲۰۲۵)
+            </h2>
+            
+            <div class="overflow-x-auto">
+                <table class="w-full min-w-[600px]">
+                    <thead>
+                        <tr class="text-gray-500 text-sm border-b border-gray-200">
+                            <th class="pb-4 text-right font-medium w-1/4">کشور</th>
+                            <th class="pb-4 text-right font-medium w-1/4">ظرفیت نصب شده</th>
+                            <th class="pb-4 text-right font-medium w-1/4">شرط موفقیت</th>
+                            <th class="pb-4 text-center font-medium w-1/4">وضعیت</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-sm">
+                        <tr class="group hover:bg-gray-50 transition">
+                            <td class="py-4 font-bold flex items-center gap-2">
+                                <span class="text-2xl">🇨🇳</span> چین
+                            </td>
+                            <td class="py-4 font-mono text-lg">+700,000 MW</td>
+                            <td class="py-4 text-gray-600">صادرات اجباری و رقابت شدید</td>
+                            <td class="py-4 text-center"><span class="bg-green-100 text-success px-3 py-1 rounded-full text-xs font-bold">رهبر جهان</span></td>
+                        </tr>
+                        <tr class="group hover:bg-gray-50 transition">
+                            <td class="py-4 font-bold flex items-center gap-2">
+                                <span class="text-2xl">🇻🇳</span> ویتنام
+                            </td>
+                            <td class="py-4 font-mono text-lg">~25,000 MW</td>
+                            <td class="py-4 text-gray-600">قطع حمایت در صورت عدم تولید</td>
+                            <td class="py-4 text-center"><span class="bg-green-100 text-success px-3 py-1 rounded-full text-xs font-bold">جهش خیره‌کننده</span></td>
+                        </tr>
+                        <tr class="group hover:bg-gray-50 transition">
+                            <td class="py-4 font-bold flex items-center gap-2">
+                                <span class="text-2xl">🇦🇪</span> امارات
+                            </td>
+                            <td class="py-4 font-mono text-lg">~5,000 MW</td>
+                            <td class="py-4 text-gray-600">مناقصات رقابتی + جریمه سنگین</td>
+                            <td class="py-4 text-center"><span class="bg-green-100 text-success px-3 py-1 rounded-full text-xs font-bold">ارزان‌ترین قیمت</span></td>
+                        </tr>
+                        <tr class="bg-red-50 border-l-4 border-failure">
+                            <td class="py-4 font-bold flex items-center gap-2 pr-3">
+                                <span class="text-2xl">🇮🇷</span> ایران
+                            </td>
+                            <td class="py-4 font-mono text-lg text-failure font-bold">~1,200 MW</td>
+                            <td class="py-4 text-failure font-medium">بدون شرط عملکردی (توزیع رانت)</td>
+                            <td class="py-4 text-center"><span class="bg-red-200 text-red-800 px-3 py-1 rounded-full text-xs font-bold">شکست "صنعت نوزاد"</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Conclusion / Footer -->
+        <footer class="bg-gray-800 text-white rounded-2xl p-8 text-center relative overflow-hidden">
+            <div class="relative z-10">
+                <h3 class="text-2xl font-bold mb-4 text-solar-400">راه حل چیست؟</h3>
+                <p class="max-w-2xl mx-auto text-gray-300 leading-loose mb-6">
+                    طبق تحلیل مشتاق خان، مشکل تحریم نیست (ویتنام هم تحریم بود). راه حل، تغییر ساختار از <strong>"توزیع رانت"</strong> به <strong>"مدیریت رانت"</strong> است.
+                    <br>
+                    <span class="text-white font-bold border-b-2 border-solar-500 pb-1 mx-1">شرط‌گذاری سفت و سخت عملکردی</span>
+                    +
+                    <span class="text-white font-bold border-b-2 border-solar-500 pb-1 mx-1">نظارت متمرکز</span>
+                    +
+                    <span class="text-white font-bold border-b-2 border-solar-500 pb-1 mx-1">قطع حمایت از ناکارآمدها</span>
+                </p>
+            </div>
+            <!-- Decorative background circle -->
+            <div class="absolute -bottom-20 -right-20 w-64 h-64 bg-solar-600 rounded-full opacity-20 blur-3xl"></div>
+            <div class="absolute -top-20 -left-20 w-64 h-64 bg-blue-600 rounded-full opacity-20 blur-3xl"></div>
         </footer>
 
-    </div>
+        <div class="text-center text-gray-400 text-xs mt-8">
+            طراحی شده بر اساس فایل: انرژی خورشیدی در ایران از دیدگاه مشتاق خان
+        </div>
 
+    </main>
 </body>
 </html>
