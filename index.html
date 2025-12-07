@@ -3,392 +3,633 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>اینفوگرافیک مراکز نوآوری دانشگاهی جهان</title>
-    
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <title>تحلیل اکوسیستم‌های نوآوری دانشگاهی</title>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
-    <!-- Plotly.js -->
-    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
 
-    <!-- Palette Definition: Future Tech Vibrant -->
-    <!-- Primary: Indigo #312e81, Accent: Cyan #06b6d4, Highlight: Orange #f97316 -->
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+
+    <!-- Chosen Palette: Warm Stone Harmony -->
+    <!-- Backgrounds: Stone-50 (#fafaf9), Stone-100 -->
+    <!-- Text: Stone-800 (#292524), Stone-600 -->
+    <!-- Accents: Muted Teal (#2dd4bf), Soft Amber (#fbbf24), Deep Clay (#c2410c) -->
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Vazirmatn', 'sans-serif'],
+                    },
+                    colors: {
+                        'app-bg': '#fafaf9',
+                        'app-surface': '#ffffff',
+                        'app-text-main': '#292524',
+                        'app-text-muted': '#57534e',
+                        'app-accent-primary': '#0d9488', // Teal 600
+                        'app-accent-secondary': '#d97706', // Amber 600
+                    }
+                }
+            }
+        }
+    </script>
 
     <style>
-        body {
-            font-family: 'Vazirmatn', sans-serif;
-            background-color: #f8fafc;
-            color: #1e293b;
-        }
-        
-        /* Chart Container Styling - Mandatory Requirements */
+        /* Chart Container Styling - MANDATORY */
         .chart-container {
             position: relative;
             width: 100%;
-            max-width: 600px; /* Constraint */
+            max-width: 600px;
             margin-left: auto;
-            margin-right: auto; /* Centering */
-            height: 350px; /* Base height */
+            margin-right: auto;
+            height: 300px;
             max-height: 400px;
         }
         
         @media (min-width: 768px) {
             .chart-container {
-                height: 400px;
+                height: 350px;
             }
         }
 
         /* Custom Scrollbar */
         ::-webkit-scrollbar {
-            width: 10px;
+            width: 8px;
         }
         ::-webkit-scrollbar-track {
-            background: #f1f1f1;
+            background: #f5f5f4;
         }
         ::-webkit-scrollbar-thumb {
-            background: #312e81;
-            border-radius: 5px;
+            background: #d6d3d1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a8a29e;
+        }
+
+        /* Interactive Elements */
+        .nav-item.active {
+            background-color: #e7e5e4; /* Stone 200 */
+            border-right: 4px solid #0d9488;
+            font-weight: 700;
         }
         
-        .glass-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+        .card-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
         }
-        
-        .gradient-text {
-            background: linear-gradient(to left, #312e81, #06b6d4);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+
+        /* Hide sections by default */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 
-    <!-- 
-      NO SVG USED. 
-      NO MERMAID JS USED.
-      ALL DIAGRAMS ARE HTML/CSS or CANVAS.
-      PALETTE: Vibrant Indigo/Cyan/Orange.
+    <!-- Application Structure Plan:
+         This SPA is designed as a Dashboard with a sidebar navigation (desktop) / top bar (mobile).
+         1. **Dashboard (Overview):** Comparison Radar Chart of university models (Governance, Risk, Support).
+         2. **Deep Dive (University Profiles):** Interactive cards for MIT, Stanford, Cambridge, ETH. Clicking a card updates a detail panel using JS.
+         3. **Mechanisms (Financials):** Comparative charts for Incentive Models (Stanford Pie) vs Equity Models (Cambridge Bar).
+         4. **Showcase (Success Stories):** A filterable grid of startups (Climeworks, Scratch, etc.).
+         5. **Synthesis (Takeaways):** A checklist of implementation strategies.
+         
+         Why this structure? It moves from macro (comparison) to micro (mechanisms) to evidence (stories), allowing the user to construct a mental model of *how* these centers work before seeing *what* they produced.
+    -->
+
+    <!-- Visualization & Content Choices:
+         1. **Radar Chart (Dashboard):** To visually compare qualitative attributes (e.g., "State Support" vs "Market Focus") across the 4 universities. 
+            - Goal: Compare. Method: Chart.js Radar. Interaction: Hover for values.
+         2. **Interactive Cards (Profiles):** To prevent text overload. Users select a university to see its specific "Secret Sauce" (e.g., Media Lab vs OTL).
+            - Goal: Organize. Method: DOM Manipulation.
+         3. **Doughnut & Bar Charts (Mechanisms):** To show the specific financial splits (Stanford) and equity stakes (Cambridge).
+            - Goal: Inform/Compare. Method: Chart.js.
+         4. **Filterable Grid (Showcase):** To categorize outcomes by sector or origin university.
+            - Goal: Organize/Explore. Method: JS Filtering.
+         
+         CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
     -->
 </head>
-<body class="bg-slate-50">
+<body class="bg-app-bg text-app-text-main font-sans min-h-screen flex flex-col md:flex-row overflow-hidden">
 
-    <!-- Hero Section -->
-    <header class="w-full bg-white shadow-lg sticky top-0 z-50">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <h1 class="text-2xl font-bold text-indigo-900">مراکز نوآوری <span class="text-cyan-500">جهانی</span></h1>
-            <span class="text-sm bg-indigo-100 text-indigo-800 py-1 px-3 rounded-full">تحلیل تطبیقی</span>
+    <!-- Mobile Header -->
+    <div class="md:hidden bg-white shadow-sm p-4 flex justify-between items-center z-20">
+        <h1 class="text-xl font-bold text-app-text-main">اکوسیستم‌های نوآوری</h1>
+        <button id="mobile-menu-btn" class="text-2xl text-app-text-muted">☰</button>
+    </div>
+
+    <!-- Sidebar Navigation -->
+    <nav id="sidebar" class="bg-white w-full md:w-64 flex-shrink-0 border-l border-stone-200 flex flex-col h-screen transform -translate-x-full md:translate-x-0 transition-transform duration-300 absolute md:relative z-10">
+        <div class="p-6 border-b border-stone-100 hidden md:block">
+            <h1 class="text-2xl font-black text-stone-800">مراکز نوآوری</h1>
+            <p class="text-xs text-stone-500 mt-2">تحلیل تطبیقی دانشگاه‌های برتر</p>
         </div>
-    </header>
 
-    <main class="container mx-auto px-4 py-8 space-y-16">
+        <div class="flex-1 overflow-y-auto py-4">
+            <ul class="space-y-1">
+                <li>
+                    <button onclick="switchTab('dashboard')" class="nav-item active w-full text-right px-6 py-3 text-sm hover:bg-stone-50 transition-colors flex items-center gap-3">
+                        <span>📊</span> نمای کلی و استراتژی
+                    </button>
+                </li>
+                <li>
+                    <button onclick="switchTab('profiles')" class="nav-item w-full text-right px-6 py-3 text-sm hover:bg-stone-50 transition-colors flex items-center gap-3">
+                        <span>🏛️</span> مدل‌های حکمرانی
+                    </button>
+                </li>
+                <li>
+                    <button onclick="switchTab('financials')" class="nav-item w-full text-right px-6 py-3 text-sm hover:bg-stone-50 transition-colors flex items-center gap-3">
+                        <span>💰</span> مشوق‌های مالی
+                    </button>
+                </li>
+                <li>
+                    <button onclick="switchTab('stories')" class="nav-item w-full text-right px-6 py-3 text-sm hover:bg-stone-50 transition-colors flex items-center gap-3">
+                        <span>🚀</span> پروژه‌های موفق
+                    </button>
+                </li>
+                <li>
+                    <button onclick="switchTab('synthesis')" class="nav-item w-full text-right px-6 py-3 text-sm hover:bg-stone-50 transition-colors flex items-center gap-3">
+                        <span>📝</span> یافته‌های کلیدی
+                    </button>
+                </li>
+            </ul>
+        </div>
 
-        <!-- Intro -->
-        <section class="text-center max-w-4xl mx-auto mt-8">
-            <h2 class="text-4xl md:text-5xl font-black mb-6 gradient-text leading-tight">معماری اکوسیستم‌های نوآوری</h2>
-            <p class="text-lg text-slate-600 leading-8">
-                گذار به دانشگاه‌های نسل چهارم نیازمند مهندسی دقیق تعاملات بین آموزش، پژوهش و تجاری‌سازی است. 
-                این اینفوگرافیک به بررسی ساختار، انگیزه‌ها و خروجی‌های چهار دانشگاه پیشرو جهان 
-                (MIT، استنفورد، کمبریج و ETH زوریخ) می‌پردازد.
-            </p>
+        <div class="p-4 border-t border-stone-100 text-xs text-stone-400 text-center">
+            بر اساس گزارش تحلیلی دانشگاه‌های نسل چهارم
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 overflow-y-auto p-4 md:p-8 relative scroll-smooth">
+        
+        <!-- View 1: Dashboard (Overview) -->
+        <section id="dashboard" class="tab-content active max-w-5xl mx-auto">
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold text-stone-800 mb-4">معماری اکوسیستم‌های نوآوری</h2>
+                <p class="text-lg text-stone-600 leading-relaxed bg-white p-6 rounded-lg shadow-sm border border-stone-100">
+                    گذار به «دانشگاه نسل چهارم» نیازمند مهندسی دقیق تعاملات بین آموزش، پژوهش و تجاری‌سازی است. این داشبورد تحلیلی، ساختار و عملکرد چهار دانشگاه پیشرو جهان (**MIT**، **استنفورد**، **کمبریج** و **ETH زوریخ**) را مقایسه می‌کند تا الگوی بهینه‌ای برای مدیریت مراکز نوآوری ارائه دهد.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                <!-- Radar Chart Card -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-100">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="font-bold text-stone-700">مقایسه استراتژیک مدل‌ها</h3>
+                        <span class="text-xs bg-stone-100 px-2 py-1 rounded text-stone-500">تحلیل کیفی</span>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="strategyRadarChart"></canvas>
+                    </div>
+                    <p class="text-xs text-stone-400 mt-4 text-center">محورها نشان‌دهنده اولویت‌دهی نسبی هر دانشگاه در مدل حکمرانی است.</p>
+                </div>
+
+                <!-- Key Metrics Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="bg-teal-50 p-6 rounded-xl border border-teal-100 flex flex-col justify-center items-center text-center">
+                        <span class="text-3xl mb-2">🤝</span>
+                        <h4 class="font-bold text-teal-900 mb-1">MIT</h4>
+                        <p class="text-sm text-teal-700">توازن سیستماتیک</p>
+                        <span class="text-xs text-teal-600 mt-2">I-Cap + E-Cap</span>
+                    </div>
+                    <div class="bg-orange-50 p-6 rounded-xl border border-orange-100 flex flex-col justify-center items-center text-center">
+                        <span class="text-3xl mb-2">🏙️</span>
+                        <h4 class="font-bold text-orange-900 mb-1">Stanford</h4>
+                        <p class="text-sm text-orange-700">ادغام با بازار</p>
+                        <span class="text-xs text-orange-600 mt-2">Silicon Valley DNA</span>
+                    </div>
+                    <div class="bg-blue-50 p-6 rounded-xl border border-blue-100 flex flex-col justify-center items-center text-center">
+                        <span class="text-3xl mb-2">🇬🇧</span>
+                        <h4 class="font-bold text-blue-900 mb-1">Cambridge</h4>
+                        <p class="text-sm text-blue-700">سرمایه‌گذاری مستقیم</p>
+                        <span class="text-xs text-blue-600 mt-2">Silicon Fen Cluster</span>
+                    </div>
+                    <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 flex flex-col justify-center items-center text-center">
+                        <span class="text-3xl mb-2">🇨🇭</span>
+                        <h4 class="font-bold text-slate-900 mb-1">ETH Zurich</h4>
+                        <p class="text-sm text-slate-700">حمایت دولتی</p>
+                        <span class="text-xs text-slate-600 mt-2">Pioneer Fellowships</span>
+                    </div>
+                </div>
+            </div>
         </section>
 
-        <!-- Section 1: Strategic Comparison (Radar Chart) -->
-        <section class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
-            <div class="order-2 lg:order-1">
-                <div class="chart-container">
-                    <canvas id="governanceRadarChart"></canvas>
-                </div>
+        <!-- View 2: Profiles (Governance) -->
+        <section id="profiles" class="tab-content max-w-5xl mx-auto">
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-stone-800">ساختار درونی و حکمرانی</h2>
+                <p class="text-sm text-stone-500 mt-1">برای مشاهده جزئیات عملیاتی روی هر دانشگاه کلیک کنید.</p>
             </div>
-            <div class="order-1 lg:order-2 space-y-6">
-                <div class="border-r-4 border-cyan-500 pr-4">
-                    <h3 class="text-2xl font-bold text-slate-800 mb-2">مقایسه مدل‌های حکمرانی</h3>
-                    <p class="text-slate-600 text-justify leading-7">
-                        هر دانشگاه بر اساس اکوسیستم منطقه‌ای خود، استراتژی متفاوتی دارد. 
-                        <strong>MIT</strong> بر رویکرد سیستماتیک و توزیع‌شده تمرکز دارد، در حالی که 
-                        <strong>استنفورد</strong> هم‌زیستی ارگانیک با بازار آزاد را انتخاب کرده است. 
-                        <strong>ETH زوریخ</strong> با حمایت قوی دولتی و دقت مهندسی شناخته می‌شود و 
-                        <strong>کمبریج</strong> مدل سرمایه‌گذاری مستقیم و خوشه‌سازی را دنبال می‌کند.
-                    </p>
-                </div>
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="bg-indigo-50 p-4 rounded-lg">
-                        <h4 class="font-bold text-indigo-900 mb-1">MIT</h4>
-                        <p class="text-sm text-indigo-700">توازن ظرفیت نوآوری و کارآفرینی (I-Cap & E-Cap)</p>
-                    </div>
-                    <div class="bg-cyan-50 p-4 rounded-lg">
-                        <h4 class="font-bold text-cyan-900 mb-1">Stanford</h4>
-                        <p class="text-sm text-cyan-700">مجاورت با سیلیکون ولی و تمرکز بر بازار</p>
-                    </div>
-                </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+                <button onclick="showProfile('mit')" class="profile-btn active bg-white p-4 rounded-lg border border-stone-200 hover:border-teal-500 transition-all text-center group">
+                    <div class="font-bold text-stone-700 group-hover:text-teal-600">MIT</div>
+                    <div class="text-xs text-stone-400">کنسرسیوم محور</div>
+                </button>
+                <button onclick="showProfile('stanford')" class="profile-btn bg-white p-4 rounded-lg border border-stone-200 hover:border-orange-500 transition-all text-center group">
+                    <div class="font-bold text-stone-700 group-hover:text-orange-600">Stanford</div>
+                    <div class="text-xs text-stone-400">بازار محور</div>
+                </button>
+                <button onclick="showProfile('cambridge')" class="profile-btn bg-white p-4 rounded-lg border border-stone-200 hover:border-blue-500 transition-all text-center group">
+                    <div class="font-bold text-stone-700 group-hover:text-blue-600">Cambridge</div>
+                    <div class="text-xs text-stone-400">خوشه محور</div>
+                </button>
+                <button onclick="showProfile('eth')" class="profile-btn bg-white p-4 rounded-lg border border-stone-200 hover:border-slate-500 transition-all text-center group">
+                    <div class="font-bold text-stone-700 group-hover:text-slate-600">ETH Zurich</div>
+                    <div class="text-xs text-stone-400">حمایت محور</div>
+                </button>
+            </div>
+
+            <div id="profile-content" class="bg-white p-8 rounded-2xl shadow-sm border border-stone-100 min-h-[300px]">
+                <!-- Dynamic Content Loaded Here via JS -->
             </div>
         </section>
 
-        <!-- Section 2: Financial Incentives & IP -->
-        <section class="space-y-8">
-            <div class="text-center max-w-3xl mx-auto">
-                <h3 class="text-3xl font-bold text-slate-800">موتور محرک: مشوق‌های مالی و مالکیت فکری</h3>
-                <p class="text-slate-500 mt-2">سیاست‌های مالی شفاف، کلید تبدیل پژوهش به محصول است.</p>
+        <!-- View 3: Financials -->
+        <section id="financials" class="tab-content max-w-5xl mx-auto">
+            <div class="mb-8">
+                <h2 class="text-2xl font-bold text-stone-800 mb-2">موتور محرک: پول و مالکیت فکری</h2>
+                <p class="text-stone-600 bg-stone-50 p-4 rounded-lg border border-stone-200 text-sm">
+                    تفاوت اصلی در موفقیت این مراکز، نحوه مدیریت انگیزه‌های مالی است. استنفورد با توزیع سخاوتمندانه درآمد بین مخترعین انگیزه ایجاد می‌کند، در حالی که کمبریج با گرفتن سهام (Equity) شریک ریسک می‌شود.
+                </p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                
-                <!-- Stanford Card -->
-                <div class="bg-white p-6 rounded-xl shadow-md border-t-4 border-orange-500 hover:shadow-xl transition-shadow duration-300">
-                    <h4 class="text-xl font-bold mb-4 text-center">مدل توزیع درآمد استنفورد (OTL)</h4>
-                    <p class="text-sm text-slate-500 text-center mb-4">سیاست سخاوتمندانه برای ایجاد انگیزه حداکثری در مخترعین</p>
-                    <div class="chart-container h-64 md:h-72">
-                        <canvas id="stanfordDonutChart"></canvas>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Stanford Chart -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border-t-4 border-orange-500">
+                    <h3 class="font-bold text-stone-800 text-center mb-1">مدل توزیع درآمد استنفورد (OTL)</h3>
+                    <p class="text-xs text-stone-400 text-center mb-6">درآمدهای خالص لایسنسینگ چگونه تقسیم می‌شوند؟</p>
+                    <div class="chart-container">
+                        <canvas id="stanfordPieChart"></canvas>
                     </div>
-                    <div class="mt-4 bg-orange-50 p-3 rounded text-center text-sm text-orange-800">
-                        <strong>نکته کلیدی:</strong> درآمد مستقیماً به مخترع و دپارتمان او باز می‌گردد، نه به خزانه مرکزی.
+                    <div class="mt-4 text-xs text-stone-500 leading-5 text-justify">
+                        <strong>تحلیل:</strong> برخلاف بسیاری از دانشگاه‌ها که درصد بالایی را برای خزانه مرکزی برمی‌دارند، استنفورد ۳۳٪ را مستقیماً به مخترع می‌دهد. این سیاست "سخاوتمندانه" عامل اصلی نرخ بالای افشای اختراع در این دانشگاه است.
                     </div>
                 </div>
 
-                <!-- Cambridge Card -->
-                <div class="bg-white p-6 rounded-xl shadow-md border-t-4 border-indigo-500 hover:shadow-xl transition-shadow duration-300">
-                    <h4 class="text-xl font-bold mb-4 text-center">مدل سهام‌داری کمبریج (Fast Track)</h4>
-                    <p class="text-sm text-slate-500 text-center mb-4">استانداردسازی سهم دانشگاه برای حذف مذاکرات طولانی</p>
-                    <div class="chart-container h-64 md:h-72">
+                <!-- Cambridge Chart -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border-t-4 border-blue-500">
+                    <h3 class="font-bold text-stone-800 text-center mb-1">سیاست "Fast Track" کمبریج</h3>
+                    <p class="text-xs text-stone-400 text-center mb-6">سهام دانشگاه در استارتاپ‌ها</p>
+                    <div class="chart-container">
                         <canvas id="cambridgeBarChart"></canvas>
                     </div>
-                    <div class="mt-4 bg-indigo-50 p-3 rounded text-center text-sm text-indigo-800">
-                        <strong>نکته کلیدی:</strong> کمبریج انترپرایز به جای لایسنس صرف، در شرکت‌ها سهام‌دار می‌شود.
+                    <div class="mt-4 text-xs text-stone-500 leading-5 text-justify">
+                        <strong>تحلیل:</strong> کمبریج برای جلوگیری از مذاکرات طولانی و فرسایشی، یک سیاست استاندارد را پیشنهاد می‌دهد: دانشگاه در ازای واگذاری مالکیت فکری، ۱۰٪ سهام شرکت را برمی‌دارد. این شفافیت سرعت تجاری‌سازی را به شدت افزایش می‌دهد.
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Section 3: Success Stories (Timeline/Cards) -->
-        <section class="bg-indigo-900 text-white rounded-3xl p-8 md:p-12 overflow-hidden relative">
-            <!-- Abstract background shapes with CSS -->
-            <div class="absolute top-0 left-0 w-64 h-64 bg-cyan-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
-            <div class="absolute bottom-0 right-0 w-64 h-64 bg-orange-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
+        <!-- View 4: Stories (Showcase) -->
+        <section id="stories" class="tab-content max-w-5xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-8">
+                <div>
+                    <h2 class="text-2xl font-bold text-stone-800">پروژه‌های تحول‌آفرین</h2>
+                    <p class="text-sm text-stone-500 mt-1">خروجی‌های ملموس اکوسیستم‌های نوآوری</p>
+                </div>
+                <div class="flex gap-2 mt-4 md:mt-0">
+                    <button onclick="filterStories('all')" class="story-filter active px-4 py-2 text-xs rounded-full bg-stone-200 text-stone-700 hover:bg-stone-300 transition">همه</button>
+                    <button onclick="filterStories('environment')" class="story-filter px-4 py-2 text-xs rounded-full bg-white border border-stone-200 text-stone-600 hover:bg-stone-100 transition">محیط زیست</button>
+                    <button onclick="filterStories('tech')" class="story-filter px-4 py-2 text-xs rounded-full bg-white border border-stone-200 text-stone-600 hover:bg-stone-100 transition">تکنولوژی</button>
+                    <button onclick="filterStories('social')" class="story-filter px-4 py-2 text-xs rounded-full bg-white border border-stone-200 text-stone-600 hover:bg-stone-100 transition">اجتماعی</button>
+                </div>
+            </div>
 
-            <h3 class="text-3xl font-bold mb-8 text-center relative z-10">پروژه‌های تحول‌آفرین: از آزمایشگاه تا بازار</h3>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 relative z-10">
-                <!-- Card 1 -->
-                <div class="bg-white/10 backdrop-blur-md border border-white/20 p-6 rounded-xl hover:bg-white/20 transition duration-300">
-                    <div class="text-4xl mb-4">🌍</div>
-                    <h4 class="text-xl font-bold text-cyan-300 mb-2">Climeworks</h4>
-                    <span class="text-xs bg-white/20 px-2 py-1 rounded text-white">ETH Zurich</span>
-                    <p class="text-sm mt-3 text-gray-200 leading-relaxed">
-                        پیشگام جذب کربن از هوا. با استفاده از زیرساخت‌های دانشگاه توسعه یافت و اکنون یک یونیکورن است.
-                    </p>
-                </div>
-                
-                <!-- Card 2 -->
-                <div class="bg-white/10 backdrop-blur-md border border-white/20 p-6 rounded-xl hover:bg-white/20 transition duration-300">
-                    <div class="text-4xl mb-4">⚡</div>
-                    <h4 class="text-xl font-bold text-orange-300 mb-2">Nyobolt</h4>
-                    <span class="text-xs bg-white/20 px-2 py-1 rounded text-white">Cambridge</span>
-                    <p class="text-sm mt-3 text-gray-200 leading-relaxed">
-                        توسعه باتری‌های شارژ فوق‌سریع. نتیجه سرمایه‌گذاری مستقیم مدل کمبریج.
-                    </p>
-                </div>
-
-                <!-- Card 3 -->
-                <div class="bg-white/10 backdrop-blur-md border border-white/20 p-6 rounded-xl hover:bg-white/20 transition duration-300">
-                    <div class="text-4xl mb-4">🐱</div>
-                    <h4 class="text-xl font-bold text-yellow-300 mb-2">Scratch</h4>
-                    <span class="text-xs bg-white/20 px-2 py-1 rounded text-white">MIT Media Lab</span>
-                    <p class="text-sm mt-3 text-gray-200 leading-relaxed">
-                        زبان برنامه‌نویسی کودکان. حاصل مدل کنسرسیوم و رویکرد اجتماعی مدیا لب (ضد رشته‌ای).
-                    </p>
-                </div>
-
-                <!-- Card 4 -->
-                <div class="bg-white/10 backdrop-blur-md border border-white/20 p-6 rounded-xl hover:bg-white/20 transition duration-300">
-                    <div class="text-4xl mb-4">👶</div>
-                    <h4 class="text-xl font-bold text-pink-300 mb-2">Embrace</h4>
-                    <span class="text-xs bg-white/20 px-2 py-1 rounded text-white">Stanford d.school</span>
-                    <p class="text-sm mt-3 text-gray-200 leading-relaxed">
-                        انکوباتور نوزاد ارزان‌قیمت. خروجی مستقیم کلاس‌های تفکر طراحی برای حل مسائل واقعی.
-                    </p>
-                </div>
+            <div id="stories-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Story Cards injected via JS -->
             </div>
         </section>
 
-        <!-- Section 4: Structural Deep Dive (Process Flow & Labs) -->
-        <section class="grid grid-cols-1 md:grid-cols-2 gap-12">
-            
-            <!-- Process Flow: ETH Pioneer Fellowship -->
-            <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
-                <h3 class="text-2xl font-bold text-slate-800 mb-6">ساختار حمایتی ETH: فلوشیپ Pioneer</h3>
-                <p class="text-slate-600 mb-6 text-sm">چگونه یک دانشجو به کارآفرین تبدیل می‌شود؟ (عبور از دره مرگ)</p>
-                
-                <div class="flex flex-col space-y-4">
-                    <!-- Step 1 -->
-                    <div class="flex items-center group">
-                        <div class="w-12 h-12 rounded-full bg-slate-200 flex items-center justify-center text-xl font-bold text-slate-600 group-hover:bg-indigo-600 group-hover:text-white transition">۱</div>
-                        <div class="mr-4 flex-1 bg-slate-50 p-3 rounded-lg border border-slate-200">
-                            <h5 class="font-bold text-slate-800">فارغ‌التحصیلی دکتری</h5>
-                            <p class="text-xs text-slate-500">پایان دوره آکادمیک</p>
-                        </div>
-                    </div>
-                    <!-- Arrow -->
-                    <div class="flex justify-center text-slate-300 text-2xl">⬇</div>
-                    <!-- Step 2 -->
-                    <div class="flex items-center group">
-                        <div class="w-12 h-12 rounded-full bg-slate-200 flex items-center justify-center text-xl font-bold text-slate-600 group-hover:bg-indigo-600 group-hover:text-white transition">۲</div>
-                        <div class="mr-4 flex-1 bg-orange-50 p-3 rounded-lg border border-orange-200 shadow-sm">
-                            <h5 class="font-bold text-orange-800">گرنت ۱۵۰,۰۰۰ فرانک</h5>
-                            <p class="text-xs text-orange-600">بودجه بلاعوض برای تجاری‌سازی</p>
-                        </div>
-                    </div>
-                    <!-- Arrow -->
-                    <div class="flex justify-center text-slate-300 text-2xl">⬇</div>
-                    <!-- Step 3 -->
-                    <div class="flex items-center group">
-                        <div class="w-12 h-12 rounded-full bg-slate-200 flex items-center justify-center text-xl font-bold text-slate-600 group-hover:bg-indigo-600 group-hover:text-white transition">۳</div>
-                        <div class="mr-4 flex-1 bg-slate-50 p-3 rounded-lg border border-slate-200">
-                            <h5 class="font-bold text-slate-800">دوره ۱۸ ماهه</h5>
-                            <p class="text-xs text-slate-500">تمرکز کامل بر توسعه محصول در SPH</p>
-                        </div>
-                    </div>
-                    <!-- Arrow -->
-                    <div class="flex justify-center text-slate-300 text-2xl">⬇</div>
-                     <!-- Step 4 -->
-                     <div class="flex items-center group">
-                        <div class="w-12 h-12 rounded-full bg-slate-200 flex items-center justify-center text-xl font-bold text-slate-600 group-hover:bg-cyan-600 group-hover:text-white transition">۴</div>
-                        <div class="mr-4 flex-1 bg-cyan-50 p-3 rounded-lg border border-cyan-200 shadow-sm">
-                            <h5 class="font-bold text-cyan-800">تأسیس Spin-off</h5>
-                            <p class="text-xs text-cyan-600">ورود رسمی به بازار</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <!-- View 5: Synthesis -->
+        <section id="synthesis" class="tab-content max-w-5xl mx-auto">
+            <div class="bg-stone-800 text-white rounded-2xl p-8 md:p-12 shadow-lg">
+                <h2 class="text-3xl font-bold mb-6 text-app-accent-secondary">نقشه راه پیاده‌سازی</h2>
+                <p class="mb-8 text-stone-300 leading-7 text-lg">
+                    بر اساس تجربیات این چهار دانشگاه، برای راه‌اندازی یا ارتقای یک مرکز نوآوری موفق، چهار رکن اصلی باید بازتعریف شوند:
+                </p>
 
-            <!-- Plotly Visualization: Funding Gap -->
-            <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 flex flex-col">
-                <h3 class="text-2xl font-bold text-slate-800 mb-2">توزیع منابع مالی</h3>
-                <p class="text-slate-600 mb-4 text-sm">مقایسه حجم سرمایه‌گذاری در مراحل اولیه بین دانشگاه‌ها</p>
-                
-                <div class="chart-container flex-grow">
-                    <!-- Plotly Container -->
-                    <div id="fundingPlot" style="width: 100%; height: 100%;"></div>
-                </div>
-                
-                <div class="mt-4 text-xs text-slate-400 text-center">
-                    * داده‌ها بر اساس برآوردهای نسبی از گزارش‌های سالانه است.
-                </div>
-            </div>
-        </section>
+                <div class="space-y-6">
+                    <div class="flex items-start gap-4 p-4 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition">
+                        <div class="text-2xl mt-1">🔭</div>
+                        <div>
+                            <h3 class="font-bold text-xl mb-2 text-teal-400">۱. تأمین مالی شکاف (Gap Funding)</h3>
+                            <p class="text-sm text-stone-300">
+                                <strong>مسئله:</strong> پروژه‌های دانشگاهی برای سرمایه‌گذار "خیلی خام" و برای گرنت پژوهشی "خیلی تجاری" هستند.<br>
+                                <strong>راه‌حل:</strong> ایجاد گرنت‌های بلاعوض مانند *Pioneer Fellowship* (زوریخ) یا *Momentum* (ام‌آی‌تی) که صرفاً برای ساخت نمونه اولیه تجاری (MVP) پرداخت می‌شود.
+                            </p>
+                        </div>
+                    </div>
 
-        <!-- Conclusion -->
-        <section class="bg-gradient-to-r from-slate-900 to-indigo-900 text-white rounded-2xl p-8 mb-12">
-            <h3 class="text-2xl font-bold mb-6 border-b border-white/20 pb-4">یافته‌های کلیدی برای پیاده‌سازی</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div class="bg-white/10 p-4 rounded-lg">
-                    <div class="text-cyan-400 font-bold text-lg mb-2">۱. شفافیت حقوقی</div>
-                    <p class="text-sm text-slate-300">مدل‌های استاندارد (مثل کمبریج) مانع اصلی بر سر راه کارآفرینان را حذف می‌کند.</p>
-                </div>
-                <div class="bg-white/10 p-4 rounded-lg">
-                    <div class="text-orange-400 font-bold text-lg mb-2">۲. تأمین مالی شکاف</div>
-                    <p class="text-sm text-slate-300">گرنت‌هایی که نه پژوهشی هستند و نه تجاری (Gap Funding) حیاتی هستند.</p>
-                </div>
-                <div class="bg-white/10 p-4 rounded-lg">
-                    <div class="text-cyan-400 font-bold text-lg mb-2">۳. فضاهای تعاملی</div>
-                    <p class="text-sm text-slate-300">ایجاد فضاهای Makerspace بدون بروکراسی (مانند SPH زوریخ).</p>
-                </div>
-                <div class="bg-white/10 p-4 rounded-lg">
-                    <div class="text-orange-400 font-bold text-lg mb-2">۴. انگیزه مالی</div>
-                    <p class="text-sm text-slate-300">توزیع مستقیم درآمد به محققین (مدل استنفورد) موتور افشای اختراعات است.</p>
+                    <div class="flex items-start gap-4 p-4 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition">
+                        <div class="text-2xl mt-1">⚖️</div>
+                        <div>
+                            <h3 class="font-bold text-xl mb-2 text-orange-400">۲. شفافیت رادیکال در IP</h3>
+                            <p class="text-sm text-stone-300">
+                                <strong>مسئله:</strong> مذاکرات طولانی بر سر سهم دانشگاه، تیم‌ها را خسته می‌کند.<br>
+                                <strong>راه‌حل:</strong> استفاده از مدل‌های "انتخاب سریع" مانند کمبریج (۱۰٪ ثابت) یا واگذاری مالکیت به خالق در ازای رویالتی کم. ابهام، دشمن نوآوری است.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-4 p-4 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition">
+                        <div class="text-2xl mt-1">🛠️</div>
+                        <div>
+                            <h3 class="font-bold text-xl mb-2 text-blue-400">۳. فضاهای ضد-رشته‌ای</h3>
+                            <p class="text-sm text-stone-300">
+                                <strong>مسئله:</strong> سیلوهای آموزشی مانع برخورد ایده‌ها می‌شوند.<br>
+                                <strong>راه‌حل:</strong> ایجاد فضاهایی مانند *Media Lab* یا *Student Project House* که عضویت در آن‌ها بر اساس دپارتمان نیست، بلکه بر اساس پروژه است.
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
     </main>
 
-    <footer class="bg-slate-100 py-6 text-center text-slate-500 text-sm">
-        <p>طراحی و تحلیل داده بر اساس گزارش مراکز نوآوری دانشگاهی</p>
-    </footer>
-
+    <!-- JavaScript Logic -->
     <script>
-        // --- Helper Function: Label Wrapping (>16 chars) ---
-        function wrapLabel(label, maxChars = 16) {
-            if (label.length <= maxChars) return label;
-            const words = label.split(' ');
-            const lines = [];
-            let currentLine = words[0];
+        // --- Data Definitions ---
 
-            for (let i = 1; i < words.length; i++) {
-                if ((currentLine + " " + words[i]).length <= maxChars) {
-                    currentLine += " " + words[i];
-                } else {
-                    lines.push(currentLine);
-                    currentLine = words[i];
-                }
-            }
-            lines.push(currentLine);
-            return lines;
-        }
-
-        // --- Common Tooltip Configuration ---
-        const commonTooltipConfig = {
-            callbacks: {
-                title: function(tooltipItems) {
-                    const item = tooltipItems[0];
-                    let label = item.chart.data.labels[item.dataIndex];
-                    if (Array.isArray(label)) {
-                        return label.join(' ');
-                    } else {
-                        return label;
-                    }
-                }
+        const profileData = {
+            mit: {
+                title: "MIT: اکوسیستم سیستماتیک",
+                color: "border-teal-500",
+                icon: "🧩",
+                content: `
+                    <div class="space-y-4 animate-fadeIn">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-4xl">🧩</span>
+                            <h3 class="text-xl font-bold text-teal-900">رویکرد: I-Cap & E-Cap</h3>
+                        </div>
+                        <p class="text-stone-600 leading-7">در MIT، نوآوری تصادفی نیست. آن‌ها بین «ظرفیت نوآوری» (پژوهش) و «ظرفیت کارآفرینی» (تجاری‌سازی) تمایز قائل شده و برای هر کدام نهاد متفاوتی دارند.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                            <div class="bg-stone-50 p-4 rounded border-r-4 border-teal-600">
+                                <h4 class="font-bold mb-1">Media Lab</h4>
+                                <p class="text-xs text-stone-500">مدل «کنسرسیوم»: شرکت‌ها حق عضویت می‌پردازند و به کل IPهای تولید شده دسترسی غیرانحصاری دارند. رویکرد «ضد رشته‌ای» است.</p>
+                            </div>
+                            <div class="bg-stone-50 p-4 rounded border-r-4 border-teal-600">
+                                <h4 class="font-bold mb-1">Deshpande Center</h4>
+                                <p class="text-xs text-stone-500">ارائه "Gap Funding" برای عبور از دره مرگ. تمرکز صرفاً روی تبدیل پژوهش به محصول.</p>
+                            </div>
+                        </div>
+                    </div>
+                `
             },
-            titleFont: { family: 'Vazirmatn', size: 14 },
-            bodyFont: { family: 'Vazirmatn', size: 13 },
-            padding: 10,
-            rtl: true
+            stanford: {
+                title: "Stanford: هم‌زیستی با بازار",
+                color: "border-orange-500",
+                icon: "🚀",
+                content: `
+                    <div class="space-y-4 animate-fadeIn">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-4xl">🚀</span>
+                            <h3 class="text-xl font-bold text-orange-900">رویکرد: چرخش درهای باز</h3>
+                        </div>
+                        <p class="text-stone-600 leading-7">استنفورد مرزهای خود را با سیلیکون ولی محو کرده است. اساتید تشویق می‌شوند که به صنعت بروند و بازگردند.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                            <div class="bg-stone-50 p-4 rounded border-r-4 border-orange-600">
+                                <h4 class="font-bold mb-1">OTL (Office of Tech Licensing)</h4>
+                                <p class="text-xs text-stone-500">تمرکز بر لایسنسینگ غیرانحصاری برای انتشار حداکثری تکنولوژی، نه فقط سود حداکثری.</p>
+                            </div>
+                            <div class="bg-stone-50 p-4 rounded border-r-4 border-orange-600">
+                                <h4 class="font-bold mb-1">d.school</h4>
+                                <p class="text-xs text-stone-500">مدرسه طراحی که مدرک نمی‌دهد، بلکه «تفکر طراحی» را به دانشجویان سایر رشته‌ها (مهندسی، پزشکی، حقوق) آموزش می‌دهد.</p>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            cambridge: {
+                title: "Cambridge: مدل سرمایه‌گذاری",
+                color: "border-blue-500",
+                icon: "🏰",
+                content: `
+                    <div class="space-y-4 animate-fadeIn">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-4xl">🏰</span>
+                            <h3 class="text-xl font-bold text-blue-900">رویکرد: Cambridge Enterprise</h3>
+                        </div>
+                        <p class="text-stone-600 leading-7">دانشگاه به عنوان یک VC (سرمایه‌گذار خطرپذیر) عمل می‌کند. آن‌ها به جای گرفتن پول نقد برای تکنولوژی، در موفقیت آتی شرکت‌ها شریک می‌شوند.</p>
+                        <div class="bg-blue-50 p-4 rounded mt-2">
+                            <h4 class="font-bold text-blue-800 mb-1">خوشه Silicon Fen</h4>
+                            <p class="text-sm text-blue-700">این سیاست باعث ایجاد متراکم‌ترین خوشه تکنولوژی اروپا در اطراف دانشگاه شده است. بیش از ۱۵۰۰ شرکت تک در این منطقه فعال هستند.</p>
+                        </div>
+                    </div>
+                `
+            },
+            eth: {
+                title: "ETH Zurich: دقت مهندسی",
+                color: "border-slate-500",
+                icon: "⚙️",
+                content: `
+                    <div class="space-y-4 animate-fadeIn">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-4xl">⚙️</span>
+                            <h3 class="text-xl font-bold text-slate-900">رویکرد: حمایت ساختاریافته</h3>
+                        </div>
+                        <p class="text-stone-600 leading-7">در سوئیس، دولت نقش حمایتی قوی دارد. ETH بر کیفیت بالای تکنولوژی و حمایت‌های سنگین در مراحل اولیه تمرکز دارد.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                            <div class="bg-stone-50 p-4 rounded border-r-4 border-slate-600">
+                                <h4 class="font-bold mb-1">Student Project House (SPH)</h4>
+                                <p class="text-xs text-stone-500">فضای ساخت (Makerspace) رایگان با مدیریت دانشجویی. شعار: «بساز و شکست بخور».</p>
+                            </div>
+                            <div class="bg-stone-50 p-4 rounded border-r-4 border-slate-600">
+                                <h4 class="font-bold mb-1">Pioneer Fellowship</h4>
+                                <p class="text-xs text-stone-500">گرنت ۱۵۰ هزار فرانکی + منتورشیپ ۱۸ ماهه برای فارغ‌التحصیلان دکتری.</p>
+                            </div>
+                        </div>
+                    </div>
+                `
+            }
         };
 
-        // --- Common Chart Options ---
-        Chart.defaults.font.family = 'Vazirmatn';
-        Chart.defaults.color = '#475569';
+        const stories = [
+            {
+                id: 1,
+                name: "Climeworks",
+                org: "ETH Zurich",
+                category: "environment",
+                desc: "پیشگام جهانی در تکنولوژی جذب مستقیم کربن از هوا (DAC).",
+                impact: "تبدیل شدن به تک‌شاخ (Unicorn) و جذب سرمایه‌های کلان برای نجات زمین.",
+                color: "bg-teal-50 border-teal-200 text-teal-800"
+            },
+            {
+                id: 2,
+                name: "Scratch",
+                org: "MIT Media Lab",
+                category: "social",
+                desc: "زبان برنامه‌نویسی بصری برای کودکان.",
+                impact: "بیش از ۱۰۰ میلیون کاربر در سراسر جهان. نمونه موفق پروژه غیرتجاری با اثرگذاری بالا.",
+                color: "bg-orange-50 border-orange-200 text-orange-800"
+            },
+            {
+                id: 3,
+                name: "Nyobolt",
+                org: "Cambridge",
+                category: "tech",
+                desc: "باتری‌های با قابلیت شارژ فوق‌سریع (زیر ۵ دقیقه).",
+                impact: "حاصل تحقیقات پروفسور کلر گری و سرمایه‌گذاری مستقیم کمبریج انترپرایز.",
+                color: "bg-blue-50 border-blue-200 text-blue-800"
+            },
+            {
+                id: 4,
+                name: "Embrace",
+                org: "Stanford d.school",
+                category: "social",
+                desc: "انکوباتور (دستگاه نگهداری) نوزاد ارزان قیمت برای کشورهای فقیر.",
+                impact: "نجات جان هزاران نوزاد. خروجی مستقیم کلاس‌های تفکر طراحی.",
+                color: "bg-pink-50 border-pink-200 text-pink-800"
+            }
+        ];
 
-        window.onload = function() {
-            // 1. Radar Chart: Governance Models
-            const ctxRadar = document.getElementById('governanceRadarChart').getContext('2d');
-            const radarLabels = [
-                "حمایت دولتی (State Support)", 
-                "تمرکز بر بازار (Market Focus)", 
-                "ریسک‌پذیری (Risk Appetite)", 
-                "استقلال دانشجو (Student Autonomy)", 
-                "عمق پژوهش (Research Depth)"
-            ].map(l => wrapLabel(l));
+        // --- Core Logic ---
+
+        let currentTab = 'dashboard';
+
+        function switchTab(tabId) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(el => {
+                el.classList.remove('active');
+                el.classList.remove('bg-stone-200');
+                el.classList.remove('font-bold');
+                el.classList.remove('border-r-4');
+                el.classList.remove('border-teal-600');
+            });
+
+            // Show selected tab
+            document.getElementById(tabId).classList.add('active');
+            
+            // Update Nav visual state (finding the button that called this)
+            const activeBtn = Array.from(document.querySelectorAll('.nav-item')).find(btn => btn.getAttribute('onclick').includes(tabId));
+            if(activeBtn) {
+                activeBtn.classList.add('active');
+            }
+
+            // Close mobile menu if open
+            const sidebar = document.getElementById('sidebar');
+            if (!sidebar.classList.contains('-translate-x-full') && window.innerWidth < 768) {
+                sidebar.classList.add('-translate-x-full');
+            }
+
+            currentTab = tabId;
+        }
+
+        function showProfile(uniKey) {
+            const container = document.getElementById('profile-content');
+            const data = profileData[uniKey];
+            
+            // Update Buttons State
+            document.querySelectorAll('.profile-btn').forEach(btn => {
+                btn.classList.remove('border-teal-500', 'border-orange-500', 'border-blue-500', 'border-slate-500', 'ring-2', 'ring-offset-2');
+                if(btn.getAttribute('onclick').includes(uniKey)) {
+                     // Add generic active style or specific color based on key
+                     btn.classList.add('ring-2', 'ring-stone-200');
+                }
+            });
+
+            // Inject Content with Animation
+            container.innerHTML = data.content;
+        }
+
+        function filterStories(category) {
+            const container = document.getElementById('stories-grid');
+            container.innerHTML = ''; // Clear
+
+            // Update Filter Buttons
+            document.querySelectorAll('.story-filter').forEach(btn => {
+                btn.classList.remove('active', 'bg-stone-200', 'text-stone-700');
+                btn.classList.add('bg-white', 'text-stone-600');
+                if(btn.getAttribute('onclick').includes(category)) {
+                    btn.classList.remove('bg-white', 'text-stone-600');
+                    btn.classList.add('active', 'bg-stone-200', 'text-stone-700');
+                }
+            });
+
+            const filtered = category === 'all' ? stories : stories.filter(s => s.category === category);
+
+            filtered.forEach(story => {
+                const card = document.createElement('div');
+                card.className = `card-hover p-6 rounded-xl border ${story.color.replace('bg-', 'border-').replace('text-', 'text-')} border-opacity-30 bg-white`;
+                card.innerHTML = `
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <span class="text-xs font-bold uppercase tracking-wider opacity-60">${story.org}</span>
+                            <h4 class="text-xl font-bold mt-1">${story.name}</h4>
+                        </div>
+                        <span class="text-2xl opacity-50">✨</span>
+                    </div>
+                    <p class="text-sm text-stone-600 mb-4 h-12">${story.desc}</p>
+                    <div class="text-xs p-3 rounded bg-stone-50 border border-stone-100 text-stone-500">
+                        <strong>اثرگذاری:</strong> ${story.impact}
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // --- Initialization & Charts ---
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Mobile Menu Toggle
+            document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+                document.getElementById('sidebar').classList.toggle('-translate-x-full');
+            });
+
+            // Initialize Default Content
+            showProfile('mit');
+            filterStories('all');
+
+            // --- Chart: Radar Strategy ---
+            const ctxRadar = document.getElementById('strategyRadarChart').getContext('2d');
+            
+            // Helper for label wrapping
+            const wrap = (str) => str.split(' ');
 
             new Chart(ctxRadar, {
                 type: 'radar',
                 data: {
-                    labels: radarLabels,
+                    labels: ['حمایت دولتی', 'تمرکز بر بازار', 'ریسک‌پذیری', 'سهولت IP', 'شبکه‌سازی'],
                     datasets: [
                         {
-                            label: 'ETH Zurich',
-                            data: [90, 60, 50, 80, 95],
-                            borderColor: '#312e81', // Indigo
-                            backgroundColor: 'rgba(49, 46, 129, 0.2)',
-                            pointBackgroundColor: '#312e81',
+                            label: 'MIT',
+                            data: [60, 70, 85, 80, 90],
+                            borderColor: '#0d9488', // Teal
+                            backgroundColor: 'rgba(13, 148, 136, 0.2)',
                         },
                         {
                             label: 'Stanford',
                             data: [30, 95, 90, 85, 80],
-                            borderColor: '#f97316', // Orange
-                            backgroundColor: 'rgba(249, 115, 22, 0.2)',
-                            pointBackgroundColor: '#f97316',
+                            borderColor: '#d97706', // Orange
+                            backgroundColor: 'rgba(217, 119, 6, 0.2)',
                         },
                         {
                             label: 'Cambridge',
-                            data: [40, 70, 60, 60, 90],
-                            borderColor: '#06b6d4', // Cyan
-                            backgroundColor: 'rgba(6, 182, 212, 0.2)',
-                            pointBackgroundColor: '#06b6d4',
+                            data: [40, 60, 70, 90, 85],
+                            borderColor: '#2563eb', // Blue
+                            backgroundColor: 'rgba(37, 99, 235, 0.2)',
+                        },
+                        {
+                            label: 'ETH Zurich',
+                            data: [95, 50, 60, 75, 70],
+                            borderColor: '#475569', // Slate
+                            backgroundColor: 'rgba(71, 85, 105, 0.2)',
                         }
                     ]
                 },
@@ -397,37 +638,28 @@
                     maintainAspectRatio: false,
                     scales: {
                         r: {
-                            angleLines: { color: '#e2e8f0' },
-                            grid: { color: '#e2e8f0' },
-                            pointLabels: {
-                                font: { size: 11, family: 'Vazirmatn' }
-                            },
+                            angleLines: { color: '#e7e5e4' },
+                            grid: { color: '#e7e5e4' },
+                            pointLabels: { font: { family: 'Vazirmatn', size: 12 } },
                             suggestedMin: 0,
                             suggestedMax: 100
                         }
                     },
                     plugins: {
-                        tooltip: commonTooltipConfig,
-                        legend: { position: 'bottom', labels: { usePointStyle: true } }
+                        legend: { position: 'bottom', labels: { font: { family: 'Vazirmatn' } } }
                     }
                 }
             });
 
-            // 2. Doughnut Chart: Stanford Revenue Split
-            const ctxDoughnut = document.getElementById('stanfordDonutChart').getContext('2d');
-            const doughnutLabels = [
-                "سهم مخترع (Inventor)", 
-                "سهم دپارتمان (Department)", 
-                "سهم مدرسه/دانشگاه (School)"
-            ].map(l => wrapLabel(l));
-
-            new Chart(ctxDoughnut, {
+            // --- Chart: Stanford Pie ---
+            const ctxPie = document.getElementById('stanfordPieChart').getContext('2d');
+            new Chart(ctxPie, {
                 type: 'doughnut',
                 data: {
-                    labels: doughnutLabels,
+                    labels: ['مخترع', 'دپارتمان مربوطه', 'دانشکده'],
                     datasets: [{
                         data: [33.3, 33.3, 33.3],
-                        backgroundColor: ['#f97316', '#312e81', '#06b6d4'],
+                        backgroundColor: ['#d97706', '#78716c', '#a8a29e'],
                         borderWidth: 0
                     }]
                 },
@@ -435,66 +667,52 @@
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        tooltip: commonTooltipConfig,
-                        legend: { position: 'right', rtl: true, labels: { boxWidth: 15 } }
+                        legend: { position: 'right', rtl: true, labels: { font: { family: 'Vazirmatn' } } },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return ' ' + context.label + ': ' + context.raw + '%';
+                                }
+                            },
+                            titleFont: { family: 'Vazirmatn' },
+                            bodyFont: { family: 'Vazirmatn' },
+                            rtl: true
+                        }
                     }
                 }
             });
 
-            // 3. Bar Chart: Cambridge Equity
+            // --- Chart: Cambridge Bar ---
             const ctxBar = document.getElementById('cambridgeBarChart').getContext('2d');
-            const barLabels = ["لایسنس سنتی (Avg)", "مدل کمبریج (Fast Track)"].map(l => wrapLabel(l));
-
             new Chart(ctxBar, {
                 type: 'bar',
                 data: {
-                    labels: barLabels,
+                    labels: ['سایر دانشگاه‌ها (میانگین)', 'مدل کمبریج (Fast Track)'],
                     datasets: [{
-                        label: 'سهم دانشگاه در استارتاپ (%)',
-                        data: [3, 10], // Approximate values for contrast
-                        backgroundColor: ['#cbd5e1', '#312e81'],
-                        borderRadius: 5
+                        label: 'درصد سهام (Equity)',
+                        data: [3, 10],
+                        backgroundColor: ['#e7e5e4', '#2563eb'],
+                        borderRadius: 4,
+                        barThickness: 50
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
                     scales: {
-                        y: { beginAtZero: true, max: 15 }
+                        y: { beginAtZero: true, max: 15, title: { display: true, text: 'درصد سهام' } }
                     },
                     plugins: {
-                        tooltip: commonTooltipConfig,
-                        legend: { display: false }
+                        legend: { display: false },
+                        tooltip: {
+                            titleFont: { family: 'Vazirmatn' },
+                            bodyFont: { family: 'Vazirmatn' },
+                            rtl: true
+                        }
                     }
                 }
             });
-
-            // 4. Plotly Chart: Funding Comparison (Using Plotly for clean categorization)
-            // Simulating "Gap Funding" sizes
-            const trace1 = {
-                x: ['ETH Pioneer', 'MIT Momentum', 'Standard Grant'],
-                y: [150000, 100000, 50000],
-                type: 'bar',
-                marker: {
-                    color: ['#06b6d4', '#312e81', '#cbd5e1']
-                },
-                text: ['150k CHF', '100k USD', '~50k'],
-                textposition: 'auto',
-                hoverinfo: 'none'
-            };
-
-            const layout = {
-                font: { family: 'Vazirmatn' },
-                margin: { t: 20, b: 40, l: 40, r: 20 },
-                paper_bgcolor: 'rgba(0,0,0,0)',
-                plot_bgcolor: 'rgba(0,0,0,0)',
-                yaxis: { title: 'میزان گرنت (ارز محلی)', gridcolor: '#f1f1f1' },
-                xaxis: { title: 'نوع حمایت مالی' }
-            };
-            
-            // Plotly Config to enforce Canvas/SVG behavior logic (avoiding bitmap rasterization where possible, but Plotly defaults are fine here)
-            Plotly.newPlot('fundingPlot', [trace1], layout, {displayModeBar: false, responsive: true});
-        };
+        });
     </script>
 </body>
 </html>
